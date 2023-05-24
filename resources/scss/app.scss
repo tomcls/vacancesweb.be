@@ -1,0 +1,14 @@
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+*,*:focus,*:hover{
+    outline:none;
+}
+
+.form-textarea {
+    height: 650px;
+}
