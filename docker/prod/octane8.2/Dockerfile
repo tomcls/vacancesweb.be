@@ -58,7 +58,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY . /var/www/html
 RUN ls -la /var/www/html/
-RUN composer install --no-dev
+RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
 RUN npm install 
 RUN npm run build
 RUN chmod -R 777 ./storage/logs
