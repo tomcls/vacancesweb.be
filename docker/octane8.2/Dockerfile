@@ -54,9 +54,17 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-COPY start-container /usr/local/bin/start-container
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+COPY . /var/www/html
+RUN ls -la /var/www/html/
+RUN composer install
+RUN npm install
+RUN npm run build
+
+COPY ./docker/prod/octane8.2/start-container /usr/local/bin/start-container
+COPY ./docker/prod/octane8.2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./docker/prod/octane8.2/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
