@@ -55,7 +55,7 @@ RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 
-RUN composer install
+RUN /usr/bin/composer install
 RUN npm run build
 
 
