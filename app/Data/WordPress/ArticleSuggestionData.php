@@ -10,7 +10,7 @@ class ArticleSuggestionData extends Data
 {
   public function __construct(
     public string $image,
-    public string $subtitle,
+    public ?string $subtitle,
     public array $categories,
     public string $title,
     public string $slug,

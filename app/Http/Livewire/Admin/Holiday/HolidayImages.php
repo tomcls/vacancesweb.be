@@ -34,6 +34,7 @@ class HolidayImages extends Component
     public function mount($holidayId)
     {
         $this->holidayId = $holidayId;
+        logger('mount');
     }
 
     public function getImagesProperty()
@@ -48,6 +49,7 @@ class HolidayImages extends Component
     }
     public function save()
     {
+        logger('save');
         $destinationPathThumbnail = storage_path('app/holidays/images') . '/' . $this->holidayId;
         $this->notify(['message'=>'Start processing image(s)... please wait','type'=>'alert']);
         try {
@@ -137,6 +139,7 @@ class HolidayImages extends Component
 
     public function render()
     {
+        logger('render');
         return view('livewire.admin.holiday.holiday-images', [
             'images' => $this->images,
         ]);

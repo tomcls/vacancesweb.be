@@ -54,13 +54,15 @@ class Homepage extends Component
             $this->holidays = $query->get();
         }
     }
+
     public function mount()
     {
+        $this->lang = App::currentLocale();
         $json = json_decode(Storage::get("homepage.json"), true);
         $this->homepage = $json;
-        $this->lang = App::currentLocale();
-
+        logger($this->homepage[$this->lang]);
     }
+
     public function setAutoCompleteItem($type, $text, $id)
     {
         switch ($type) {
@@ -104,11 +106,15 @@ class Homepage extends Component
     {
         $this->heroItem = $heroItem;
         $this->showPostModal = true;
+        $this->postSearch = null;
+        $this->holidaySearch = null;
     }
     public function openHolidayModal($item)
     {
         $this->holidayItem = $item;
         $this->showHolidayModal = true;
+        $this->postSearch = null;
+        $this->holidaySearch = null;
     }
 
     public function render()
