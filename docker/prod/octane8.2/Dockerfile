@@ -57,8 +57,6 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY . /var/www/html
-ADD .env /var/www/html/.env
-
 
 RUN composer install
 RUN npm run build
