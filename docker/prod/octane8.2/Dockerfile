@@ -57,11 +57,11 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY . /var/www/html
-
-RUN composer install --optimize-autoloader --no-dev
+RUN ls -la /var/www/html/
+RUN composer install
+RUN npm install --optimize-autoloader --no-dev
 RUN npm run build
-RUN chmod -R 777 /var/www/html/storage/logs
-RUN chmod -R 777 /var/www/html/storage/app
+
 COPY ./docker/prod/octane8.2/start-container /usr/local/bin/start-container
 COPY ./docker/prod/octane8.2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/prod/octane8.2/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
