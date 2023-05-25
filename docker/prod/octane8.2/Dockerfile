@@ -54,7 +54,7 @@ RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-RUN COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN /usr/bin/composer install
 RUN npm run build
 
