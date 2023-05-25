@@ -9,39 +9,17 @@ server {
     server_name localhost;
     server_tokens off;
     root /usr/share/nginx/html/public;
+ 
     index index.php;
  
     charset utf-8;
-    # Pass request to Laravel for any file in a livwire dir.
-
-    #location ^~ /livewire {
-    #    try_files $uri $uri/ /index.php?$query_string;
-    #}
-    location ^~ /livewire {
-        try_files $uri $uri/ @octane;
-    }
+    
     # serve static files directly
-	location ~* \.(?:ico|css|js|gif|jpe?g|png|svg|woff)$ { 
-        expires 10d;
-        add_header Pragma public;
-        add_header Cache-Control "public";
-        try_files $uri =404;
-    }
-    location ^~ /avatars/ {
-        alias /usr/share/nginx/html/storage/app/avatars/;
-        try_files $uri /$uri @octane;
-    }
-    location ^~ /holidays/ {
-        alias /usr/share/nginx/html/storage/app/holidays/;
-        try_files $uri /$uri @octane;
-    }
-    location ^~ /rentals/ {
-        alias /usr/share/nginx/html/storage/app/rentals/;
-        try_files $uri /$uri @octane;
-    }
-    #location @generator {
-    #    rewrite ^/avatars/(.*)  /api/images/ last;
-    #}
+	location ~* \.(jpg|jpeg|gif|css|png|js|ico|html)$ {
+		access_log off;
+		expires max;
+		log_not_found off;
+	}
 
 	# removes trailing slashes (prevents SEO duplicate content issues)
 	if (!-d $request_filename)
@@ -81,6 +59,6 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
  
-        proxy_pass http://172.17.0.1:8002$suffix;
+        proxy_pass http:/padel-php:80$suffix;
     }
 }

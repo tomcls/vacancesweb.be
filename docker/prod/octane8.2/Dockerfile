@@ -27,6 +27,10 @@ RUN apt-get update \
        php8.2-ldap \
        php8.2-msgpack php8.2-igbinary php8.2-redis php8.2-swoole \
        php8.2-memcached php8.2-pcov php8.2-xdebug \
+        libpq-dev \
+        libgeos-dev \
+        php-geos \
+        libmemcached-dev \
     && php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
     && apt-get install -y nodejs \
@@ -43,14 +47,16 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN cd /root && git clone https://github.com/macellan/php-geos.git && cd php-geos && ./autogen.sh && ./configure && make && make install
+
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
 
-#RUN groupadd --force -g sail sail
-#RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
+RUN groupadd --force -g $WWWGROUP sail
+RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
-COPY ./docker/prod/php8.2/start-container /usr/local/bin/start-container
-COPY ./docker/prod/php8.2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY ./docker/prod/php8.2/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
+COPY start-container /usr/local/bin/start-container
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
 RUN chmod +x /usr/local/bin/start-container
 
 EXPOSE 8000
