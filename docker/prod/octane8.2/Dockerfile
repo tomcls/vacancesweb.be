@@ -5,7 +5,7 @@ LABEL maintainer="Taylor Otwell"
 ARG WWWGROUP
 ARG NODE_VERSION=18
 ARG POSTGRES_VERSION=14
-
+COPY . /var/www/html
 WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND noninteractive
