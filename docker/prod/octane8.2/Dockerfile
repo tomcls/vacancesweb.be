@@ -56,7 +56,7 @@ RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
-COPY . /var/www/html
+COPY . /var/www/html/
 RUN rm -r .git
 
 RUN cd /var/www/html
