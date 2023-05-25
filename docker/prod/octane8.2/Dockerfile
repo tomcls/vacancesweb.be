@@ -5,7 +5,7 @@ LABEL maintainer="Taylor Otwell"
 ARG WWWGROUP
 ARG NODE_VERSION=18
 ARG POSTGRES_VERSION=14
-COPY . /var/www/html
+
 WORKDIR /var/www/html
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -55,7 +55,13 @@ RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN /usr/bin/composer install
+
+COPY . /var/www/html
+RUN rm -r .git
+
+RUN cd /var/www/html
+
+RUN composer install
 RUN npm run build
 
 
