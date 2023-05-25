@@ -58,8 +58,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 COPY . /var/www/html
 RUN ls -la /var/www/html/
-RUN composer install
-RUN npm install --optimize-autoloader --no-dev
+RUN composer install --optimize-autoloader --no-dev
+RUN npm install 
 RUN npm run build
 
 COPY ./docker/prod/octane8.2/start-container /usr/local/bin/start-container
