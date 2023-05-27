@@ -33,8 +33,7 @@ RUN apt-get update \
         libmemcached-dev \
     && php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && curl -sLS https://deb.nodesource.com/setup_$NODE_VERSION.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm \
+    && apt-get install -y nodejs \ 
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarn.gpg >/dev/null \
     && echo "deb [signed-by=/usr/share/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list \
     && curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor | tee /usr/share/keyrings/pgdg.gpg >/dev/null \
@@ -46,7 +45,7 @@ RUN apt-get update \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+## && npm install -g npm \
 RUN cd /root && git clone https://github.com/macellan/php-geos.git && cd php-geos && ./autogen.sh && ./configure && make && make install
 
 RUN setcap "cap_net_bind_service=+ep" /usr/bin/php8.2
@@ -59,8 +58,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /var/www/html
 RUN ls -la /var/www/html/
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
-RUN npm install 
-RUN npm run build
+#RUN npm install 
+#RUN npm run build
 RUN mkdir -p /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/storage
 COPY ./docker/prod/octane8.2/start-container /usr/local/bin/start-container
 COPY ./docker/prod/octane8.2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
