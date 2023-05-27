@@ -61,8 +61,7 @@ RUN ls -la /var/www/html/
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
 RUN npm install 
 RUN npm run build
-RUN chmod -R 777 ./storage/logs
-RUN mkdir -p /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/storage/clockwork
+RUN mkdir -p /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/bootstrap/cache && chmod -R 777 /var/www/html/storage
 COPY ./docker/prod/octane8.2/start-container /usr/local/bin/start-container
 COPY ./docker/prod/octane8.2/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/prod/octane8.2/php.ini /etc/php/8.2/cli/conf.d/99-sail.ini
