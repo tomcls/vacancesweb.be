@@ -58,8 +58,8 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 COPY . /var/www/html
 RUN ls -la /var/www/html/
 RUN composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
-#RUN npm install 
-#RUN npm run build
+RUN npm install 
+RUN npm run build
 RUN mkdir -p /var/www/html/storage/logs
 RUN touch /var/www/html/storage/logs/laravel.log
 RUN chmod -R 777 /var/www/html/storage
