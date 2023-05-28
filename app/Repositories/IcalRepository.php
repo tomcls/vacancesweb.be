@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use Exception;
 
 class IcalRepository
 {
@@ -32,9 +33,15 @@ class IcalRepository
             $isUrl = strpos($content, 'http') === 0 && filter_var($content, FILTER_VALIDATE_URL);
             $isFile = strpos($content, "\n") === false && file_exists($content);
             if ($isUrl || $isFile) {
-                $content = file_get_contents($content);
+                try {
+                    $content = file_get_contents($content);
+                    $this->parse($content);
+                } catch (Exception $e) {
+                    //throw $th;
+                }
+                
             }
-            $this->parse($content);
+           
         }
     }
 

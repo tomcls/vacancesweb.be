@@ -162,15 +162,6 @@
         <div>
             {{ $reservations->links() }}
         </div>
-        <div class="w-40 content-center items-center">
-            <x-input.group inline borderless paddingless for="perPage" label="Per page" >
-                <x-input.select wire:model="perPage" id="perPage" >
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </x-input.select>
-            </x-input.group>
-        </div>
     </div>
     <!-- ICAL Modal -->
     <form wire:submit.prevent="setIcal">

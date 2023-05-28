@@ -47,8 +47,7 @@ class HouseReservations extends Component
         "editing.user_id" => 'required',
         "editing.house_id" => 'required',
         "editing.startdate_for_editing" => 'required',
-        "editing.enddate_for_editing" => 'required',
-        "ical.url" => 'required',
+        "editing.enddate_for_editing" => 'required'
     ];
 
     public $showDeleteModal = false;
@@ -64,7 +63,9 @@ class HouseReservations extends Component
 
     public $invoiceId = null;
 
-    public ?HouseIcal $ical;
+    public HouseIcal $ical;
+
+    public $icalUrl = null;
 
     public function mount($houseId)
     {
@@ -78,7 +79,6 @@ class HouseReservations extends Component
         }
         $this->houseReservations = HouseReservation::whereHouseId($this->houseId)->orderBy('id', 'desc')->limit(30)->get();
     }
-
     public function deleteSelected()
     {
         $deleteCount = $this->selectedRowsQuery->count();
@@ -91,20 +91,24 @@ class HouseReservations extends Component
     }
     public function setIcal()
     {
-        if ($this->ical->url) {
+        $validatedData = $this->validate([
+            'icalUrl' => 'required',
+        ]);
+        $iCal = new IcalRepository($this->icalUrl);
+        $events = $iCal->eventsByDate();
+        if (count($events)) {
             if (!$this->ical->id) {
+                $this->ical->url = $this->icalUrl;
                 $this->ical->house_id = $this->houseId;
                 $this->ical->hash = md5(microtime());
                 $this->ical->save();
             } else {
                 $this->ical->update([
+                    'url' => $this->icalUrl,
                     'house_id' => $this->houseId,
                     'hash' =>  md5(microtime())
                 ]);
             }
-            $iCal = new IcalRepository($this->ical->url);
-            $events = $iCal->eventsByDate();
-
             HouseReservation::whereHouseId($this->ical->house_id)->delete();
             $user_id = House::whereId($this->houseId)->first()->user->id;
             if (!empty($events) && count($events) > 0) {
@@ -124,11 +128,12 @@ class HouseReservations extends Component
                 }
                 $this->notify(['message' => 'Ical well set and well sync', 'type' => 'success']);
             } else {
-                $this->notify(['message' => 'No event retrieved', 'type' => 'alert']);
+                $this->notify(['message' => 'No events retrieved', 'type' => 'alert']);
             }
         } else {
-            $this->notify(['message' => 'Please add a calid url', 'type' => 'alert']);
+            $this->notify(['message' => 'No event retrieved', 'type' => 'alert']);
         }
+
         $this->showIcalModal = false;
     }
 
@@ -150,12 +155,27 @@ class HouseReservations extends Component
         }
         $this->showEditModal = true;
     }
+    public function openIcalModal(HouseReservation $houseReservation)
+    {
+        if ($this->ical->id) {
+            $this->icalUrl = $this->ical->url;
+        } else {
+            $this->icalUrl = null;
+        }
+        $this->showIcalModal = true;
+    }
+
 
     public function save()
     {
         // if no invoice_id then create an invoice else just create a new transaction
         $this->editing->house_id = $this->houseId;
-        $this->validate();
+        $v = $this->validate([
+            "editing.user_id" => 'required',
+            "editing.house_id" => 'required',
+            "editing.startdate_for_editing" => 'required',
+            "editing.enddate_for_editing" => 'required'
+        ]);
         $this->editing->save();
 
         $this->showEditModal = false;

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\HouseIcal;
 use Illuminate\Support\Carbon;
 use App\Models\HouseReservation;
+use App\Models\HouseTitle;
 use Illuminate\Support\Facades\DB;
 use App\Repositories\IcalRepository;
 use App\Traits\DataTable\WithSorting;
@@ -90,7 +91,7 @@ class Icals extends Component
     {
         // if no invoice_id then create an invoice else just create a new transaction
         $this->validate();
-        $this->editing->save();
+        $this->editing->hash = md5(microtime());
         $iCal = new IcalRepository($this->editing->url);
         $events = $iCal->eventsByDate();
 
@@ -112,6 +113,7 @@ class Icals extends Component
                     }
                 }
             }
+            $this->editing->save();
             $this->notify(['message' => 'Ical well set and well sync', 'type' => 'success']);
         } else {
             $this->notify(['message' => 'No event retrieved', 'type' => 'alert']);
@@ -148,9 +150,6 @@ class Icals extends Component
     public function getRowsProperty()
     {
         return $this->applyPagination($this->rowsQuery);
-        // return $this->cache(function () {
-        //     return $this->applyPagination($this->rowsQuery);
-        // });
     }
 
     public function housesResult()

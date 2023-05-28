@@ -3,7 +3,7 @@
         <div class="flex flex-row space-x-2">
             <h3 class="text-base font-semibold leading-6 text-gray-900 pt-5">House reservations</h3>
             <span class="inline-flex items-center gap-x-1.5 rounded-full px-2 py-1  my-5 mt-6 text-xs font-medium text-gray-900 ring-1 ring-inset ring-gray-200">
-                <svg class="h-1.5 w-1.5 @if ($ical->url) fill-green-500 @else fill-red-500"@endif viewBox="0 0 6 6" aria-hidden="true">
+                <svg class="h-1.5 w-1.5 {{$ical && $ical->id ? 'fill-green-500' : 'fill-red-500'}} viewBox="0 0 6 6" aria-hidden="true">
                 <circle cx="3" cy="3" r="3" />
                 </svg>
                 ICAL
@@ -23,7 +23,7 @@
                 <x-dropdown.item type="button" wire:click="$toggle('showDeleteModal')" class=" flex items-center space-x-2">
                     <x-icon.trash class="text-cool-blue-400"/> <span>Delete</span>
                 </x-dropdown.item>
-                <x-dropdown.item type="button" wire:click="$toggle('showIcalModal')" class="flex items-center space-x-2">
+                <x-dropdown.item type="button" wire:click="openIcalModal" class="flex items-center space-x-2">
                     <x-icon.calendar class="text-cool-gray-400"/> <span>ICAL</span>
                 </x-dropdown.item>
             </x-dropdown>
@@ -163,33 +163,7 @@
         <div>
             {{ $reservations->links() }}
         </div>
-        <div class="w-40 content-center items-center">
-            <x-input.group inline borderless paddingless for="perPage" label="Per page" >
-                <x-input.select wire:model="perPage" id="perPage" >
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </x-input.select>
-            </x-input.group>
-        </div>
     </div>
-    <!-- ICAL Modal -->
-    <form wire:submit.prevent="setIcal">
-        <x-modal.dialog wire:model.defer="showIcalModal">
-            <x-slot name="title">Ical</x-slot>
-
-            <x-slot name="content">
-                <div class="py-8 text-cool-gray-700">Add an valid ICAL url</div>
-                <x-input.text class="text" wire:model='ical.url'/>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-button.secondary wire:click="$set('showIcalModal', false)">Cancel</x-button.secondary>
-
-                <x-button.primary type="submit">Save</x-button.primary>
-            </x-slot>
-        </x-modal.confirmation>
-    </form>
     <!-- Delete Reservations Modal -->
     <form wire:submit.prevent="deleteSelected">
         <x-modal.confirmation wire:model.defer="showDeleteModal">
@@ -237,6 +211,24 @@
 
             <x-slot name="footer">
                 <x-button.secondary wire:click="$set('showEditModal', false)">Cancel</x-button.secondary>
+
+                <x-button.primary type="submit">Save</x-button.primary>
+            </x-slot>
+        </x-modal.dialog>
+    </form>
+    <!-- ICAL Modal -->
+    <form wire:submit.prevent="setIcal">
+        <x-modal.dialog wire:model.defer="showIcalModal">
+            <x-slot name="title">Ical</x-slot>
+
+            <x-slot name="content">
+                <div class="py-2 text-cool-gray-700">Add a valid ICAL url</div>
+                <x-input.group for="ical" label="ICAL" :error="$errors->first('icalUrl')">
+                    <x-input.text class="text" wire:model.lazy="icalUrl" id="ical" />
+                </x-input.group>
+            </x-slot>
+            <x-slot name="footer">
+                <x-button.secondary wire:click="$set('showIcalModal', false)">Cancel</x-button.secondary>
 
                 <x-button.primary type="submit">Save</x-button.primary>
             </x-slot>

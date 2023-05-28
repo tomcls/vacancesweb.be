@@ -296,3 +296,9 @@
         </x-modal.dialog>
     </form>
 </div>
+@push('css')
+  @vite(['node_modules/pikaday/css/pikaday.css'])
+@endpush
+@push('scripts')
+@vite(['resources/js/moment.js','resources/js/pickaday.js'])
+@endpush

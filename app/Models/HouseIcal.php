@@ -17,4 +17,8 @@ class HouseIcal extends Model
     public function house ():BelongsTo {
         return $this->belongsTo(House::class, 'house_id');
     }
+    public function getCreatedForHumansAttribute()
+    {
+        return $this->created_at->format('d-m-Y h:i:s');
+    }
 }
