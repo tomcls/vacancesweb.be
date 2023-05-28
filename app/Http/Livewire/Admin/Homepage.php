@@ -108,6 +108,7 @@ class Homepage extends Component
         $this->showPostModal = true;
         $this->postSearch = null;
         $this->holidaySearch = null;
+        $this->posts = [];
     }
     public function openHolidayModal($item)
     {
@@ -115,6 +116,7 @@ class Homepage extends Component
         $this->showHolidayModal = true;
         $this->postSearch = null;
         $this->holidaySearch = null;
+        $this->holidays = [];
     }
 
     public function render()
