@@ -103,7 +103,7 @@
                             <x-button.link wire:click="edit({{ $row->id }})">{{ $row->partner_id.'#  '.$row->partner->code }}</x-button.link>
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->holiday_id }}
+                            {{ $row->holiday_id }} <small>{{ $row->holiday->holidayTitle->name }}</small> 
                         </x-table.cell>
                         <x-table.cell>
                             {{ $row->sort }}

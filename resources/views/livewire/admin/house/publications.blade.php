@@ -132,7 +132,9 @@
                         <x-button.link wire:click="edit({{ $row->id }})">{{ $row->id }}</x-button.link>
                     </x-table.cell>
                     <x-table.cell>
-                        <x-button.link wire:click="edit({{ $row->id }})">{{ $row->house_id }}</x-button.link>
+                        <x-button.link wire:click="edit({{ $row->id }})">{{ $row->house_id }}<br/>
+                        <small>{{ $row->house->houseTitle->name }}</small>
+                        </x-button.link>
                     </x-table.cell>
                     <x-table.cell>
                         <x-button.link wire:click="edit({{ $row->id }})">{{ $row->house->user->id.'# '.$row->house->user->firstname.' '.$row->house->user->lastname }}</x-button.link>

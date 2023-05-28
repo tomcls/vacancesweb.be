@@ -221,7 +221,8 @@
                             {{ $row->house->houseType->code }}
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->house->user_id }}
+                            <x-button.link wire:click="edit({{ $row->id }})">{{ $row->house->user->id.'# '.$row->house->user->firstname.' '.$row->house->user->lastname }}</x-button.link>
+                            <br/><small> {{ $row->house->user->email }}</small>
                         </x-table.cell>
                         <x-table.cell>
                             {{ $row->house->hasPosition }}

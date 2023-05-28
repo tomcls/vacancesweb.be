@@ -1,18 +1,13 @@
 <div>
-    <h1 class="text-2xl font-semibold text-gray-900">Partner heros</h1>
-    <div class="flex-col sm:flex sm:flex-row space-x-0 sm:space-x-2">
-        <div class=" sm:w-3/12 flex   space-x-2 ">
-            
-        </div>
-        <div class="grow ">
-          
-        </div>
-        <div class="flex   space-x-1 ">
-            <div class="w-4/12 sm:w-6/12 justify-end justify-items-end items-center content-center mb-3 " >
-                <x-button.primary wire:click="create"  >
-                    <x-icon.plus/> New
-                </x-button.primary>
-            </div>
+    <div class="sm:border-b border-gray-200 sm:pb-5 sm:flex sm:items-center sm:justify-between">
+        <h3 class="text-base font-semibold leading-6 text-gray-900">Partner Home</h3>
+        <div class="mt-3 sm:ml-4 sm:mt-0">
+          <div class="flex rounded-md shadow-sm">
+            <button type="button" wire:click="create" class="rounded-md relative -ml-px sm:inline-flex items-center gap-x-1.5  px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+              New
+              <x-icon.right class="text-gray-900 bg-gray-50" />
+            </button>
+          </div>
         </div>
     </div>
     <!-- partners Table -->
@@ -112,6 +107,7 @@
                 </x-input.group>
                 <x-input.group for="type" label="type" :error="$errors->first('editing.hero_type')">
                     <x-input.select  wire:model="editing.hero_type" id="type">
+                        <option value=""></option>
                         <option value="holiday">holiday</option>
                         <option value="article">article</option>
                     </x-input.select>

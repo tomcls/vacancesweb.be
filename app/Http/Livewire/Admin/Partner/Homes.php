@@ -164,10 +164,10 @@ class Homes extends Component
     {
         $name = null;
         $destinationPath = null;
-        $h = PartnerHome::whereHeroType($this->editing->hero_type)->whereLang($this->editing->lang)->first();
-        if($h) {
-            return $this->notify(['message' => 'Hero already exist', 'type' => 'alert']);
-        }
+        // $h = PartnerHome::whereHeroType($this->editing->hero_type)->whereLang($this->editing->lang)->first();
+        // if($h) {
+        //     return $this->notify(['message' => 'Hero already exist', 'type' => 'alert']);
+        // }
         if ($this->upload) {
 
             $name = Str::random(30);
@@ -181,7 +181,7 @@ class Homes extends Component
         }
         $this->validate();
 
-        $this->editing->save();
+        
 
         if ($this->upload && $name && $destinationPath) {
             $img = Image::make($this->upload->path());
@@ -208,6 +208,8 @@ class Homes extends Component
                 $img->encode('webp', 75)->save($destinationPath . '/small_' . $name . '.webp', 75);
             }
         }
+
+        $this->editing->save();
 
         $this->showEditModal = false;
 

@@ -175,6 +175,7 @@
                     <x-table.heading  sortable multi-column wire:click="sortBy('id')" :direction="$sorts['id'] ?? null">
                         ID
                     </x-table.heading>
+                    <x-table.heading  >Image</x-table.heading>
                     <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" >name</x-table.heading>
                     <x-table.heading  >type</x-table.heading>
                     <x-table.heading  >User id</x-table.heading>
@@ -205,6 +206,9 @@
                         <x-table.cell >
                             <a href="{{ route('admin.holiday').'/'.$row->holiday->id }}">{{ $row->holiday->id }}</a>
                         </x-table.cell>
+                        <x-table.cell >
+                            <img src="{{$row->holiday->cover->url('small')}}" alt="" class="rounded h-16 w-20"/>
+                        </x-table.cell>
                         <x-table.cell>
                             <span href="#" class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
@@ -217,7 +221,8 @@
                             {{ $row->holiday->holidayType->code }}
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->holiday->user_id }}
+                            <x-button.link wire:click="edit({{ $row->id }})">{{ $row->holiday->user->id.'# '.$row->holiday->user->firstname.' '.$row->holiday->user->lastname }}</x-button.link>
+                            <br/><small> {{ $row->holiday->user->email }}</small>
                         </x-table.cell>
                         <x-table.cell>
                             {{ $row->holiday->hasPosition }}
