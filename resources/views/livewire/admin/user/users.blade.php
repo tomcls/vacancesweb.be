@@ -75,24 +75,24 @@
         @if ($showFilters)
         <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
             <div class="w-1/2 pr-2 space-y-4">
-                <div class="flex flex-row space-x-2">
-                    <div class="basis-1/4">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
+                    <div class="basis-1/2 sm:basis-1/4">
                         <x-input.group  for="filter-id" label="Id">
                             <x-input.text wire:model.lazy="filters.id" id="filter-id" />
                         </x-input.group>
                     </div>
-                    <div class="basis-1/2">
+                    <div class="basis-1/2 sm:basis-1/2">
                         <x-input.group  for="filter-email" label="Email">
                             <x-input.text wire:model.lazy="filters.email" id="filter-email" />
                         </x-input.group>
                     </div>
-                    <div class="basis-1/4">
+                    <div class="basis-1/2 sm:basis-1/4">
                         <x-input.group  for="filter-code" label="Code">
                             <x-input.text wire:model.lazy="filters.code" id="filter-code" />
                         </x-input.group>
                     </div>
                 </div>
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-firstname" label="Firstname">
                             <x-input.text wire:model.lazy="filters.firstname" id="filter-firstname" />
@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <div class="flex flex-row space-x-2">
-                    <div class="basis-1/2">
+                    <div class="sm:basis-1/2">
                         <x-input.group  for="filter-phone" label="Phone">
                             <x-input.text wire:model.lazy="filters.phone" id="filter-phone" />
                         </x-input.group>
@@ -114,7 +114,7 @@
             </div>
             <div class="w-1/2 pl-2 space-y-4">
 
-                <div class="flex flex-row space-x-2">
+                <div class="flex  flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-date-min" label="Minimum Date">
                             <x-input.date wire:model="filters.date-created-min" id="filter-date-min" placeholder="MM/DD/YYYY" />

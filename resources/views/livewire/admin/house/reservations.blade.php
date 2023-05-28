@@ -20,7 +20,7 @@
               New
               <x-icon.right class="text-gray-900 bg-gray-50" />
             </button>
-            <button type="button" wire:click="toggleShowFilters" class="hidden relative -ml-px sm:inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <button type="button" wire:click="toggleShowFilters" class=" relative -ml-px sm:inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
               @if ($showFilters)<x-icon.close /> @else  <x-icon.filters /> @endif
             </button>
           </div>
@@ -32,8 +32,8 @@
         @if ($showFilters)
         <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
             <div class="w-1/2 pr-2 space-y-4">
-                <div class="flex flex-row space-x-2">
-                    <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
                         <div class="basis-1/2">
                             <x-input.group  for="filter-id" label="Reservation id">
                                 <x-input.text wire:model.lazy="filters.id" id="filter-id" />
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>                
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-created-min" label="Minimum Created Date">
                             <x-input.date wire:model="filters.created-min" id="filter-created-min" placeholder="MM-DD-YYYY" />
@@ -67,7 +67,7 @@
             </div>
             <div class="w-1/2 pl-2 space-y-4">
 
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-startdate-min" label="Minimum Start Date">
                             <x-input.date wire:model="filters.startdate-min" id="filter-startdate-min" placeholder="MM-DD-YYYY" />
@@ -79,7 +79,7 @@
                         </x-input.group>
                     </div>
                 </div>
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-enddate-min" label="Minimum End Date">
                             <x-input.date wire:model="filters.enddate-min" id="filter-enddate-min" placeholder="MM-DD-YYYY" />

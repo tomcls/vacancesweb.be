@@ -9,7 +9,7 @@
                 <option value="25">25 per page</option>
                 <option value="50">50 per page</option>
             </x-input.select>
-            <x-dropdown label="Actions" class="rounded-none  inline-flex">
+            <x-dropdown label="Actions" class="rounded-none  inline-flex py-2.5">
                 <x-dropdown.item type="button" wire:click="exportSelected" class="flex items-center space-x-2 rounded-none">
                     <x-icon.download class="text-cool-gray-400"/> <span>Export</span>
                 </x-dropdown.item>
@@ -21,7 +21,7 @@
               New
               <x-icon.right class="text-gray-900 bg-gray-50" />
             </button>
-            <button type="button" wire:click="toggleShowFilters" class="hidden relative -ml-px sm:inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            <button type="button" wire:click="toggleShowFilters" class=" relative -ml-px sm:inline-flex items-center gap-x-1.5 rounded-r-md px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
               @if ($showFilters)<x-icon.close /> @else  <x-icon.filters /> @endif
             </button>
           </div>
@@ -30,28 +30,28 @@
     <!-- Advanced Search -->
     <div class="bg-slate-100 rounded-md">
         @if ($showFilters)
-        <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
+        <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative mt-2">
             <div class="w-1/2 pr-2 space-y-4">
-                <div class="flex flex-row space-x-2">
-                    <div class="flex flex-row space-x-2">
-                        <div class="basis-1/2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
+                        <div class="sm:basis-1/2">
                             <x-input.group  for="filter-publication-id" label="Transaction id">
                                 <x-input.text wire:model.lazy="filters.id" id="filter-id" />
                             </x-input.group>
                         </div>
-                        <div class="basis-1/2">
+                        <div class="sm:basis-1/2">
                             <x-input.group  for="filter-invoice_id" label="Invoice id">
                                 <x-input.text wire:model.lazy="filters.invoice_id" id="filter-invoice_id" />
                             </x-input.group>
                         </div>
-                        <div class="basis-1/2">
+                        <div class="sm:basis-1/2">
                             <x-input.group  for="filter-reference" label="Reference">
                                 <x-input.text wire:model.lazy="filters.reference" id="filter-reference" />
                             </x-input.group>
                         </div>
                     </div>
                 </div>  
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-price" label="Price">
                             <x-input.text wire:model.lazy="filters.price" id="filter-price" />
@@ -59,7 +59,7 @@
                     </div>
                     <div class="basis-1/2">
                         <x-input.group for="fitler-type" label="Transaction type" >
-                            <x-input.select  wire:model.lazy="filters.type" id="fitler-type" >
+                            <x-input.select  wire:model.lazy="filters.type" id="fitler-type" class="py-2">
                                 <option value=""></option>
                                 @foreach (\App\Data\Enums\InvoiceTransactionTypeEnum::cases() as $unit)
                                     @if ($unit != \App\Data\Enums\InvoiceTransactionTypeEnum::HolidayPurchase)
@@ -71,7 +71,7 @@
                     </div>
                     <div class="basis-1/2">
                         <x-input.group for="fitler-payment_status" label="Invoice status" >
-                            <x-input.select  wire:model="filters.payment_status"  id="fitler-payment_status">
+                            <x-input.select  wire:model="filters.payment_status"  id="fitler-payment_status" class="py-2">
                                 <option value=""></option>
                                 @foreach (\App\Data\Enums\InvoicePaymentStatusEnum::cases() as $unit)
                                     <option value="{{ $unit }}">{{$unit }}</option>
@@ -84,7 +84,7 @@
             </div>
             <div class="w-1/2 pl-2 space-y-4">
           
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-created-min" label="Minimum Created Date">
                             <x-input.date wire:model="filters.created-min" id="filter-created-min" placeholder="MM-DD-YYYY" />
@@ -96,7 +96,7 @@
                         </x-input.group>
                     </div>
                 </div>          
-                <div class="flex flex-row space-x-2">
+                <div class="flex flex-col sm:flex-row sm:space-x-2">
                     <div class="basis-1/2">
                         <x-input.group  for="filter-datepayed-min" label="Minimum Date Payed">
                             <x-input.date wire:model="filters.datepayed-min" id="filter-datepayed-min" placeholder="MM-DD-YYYY" />

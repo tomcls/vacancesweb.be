@@ -90,7 +90,7 @@
                         </div>
                         <div class="basis-1/4">
                             <x-input.group  for="filter-type-id" label="Id">
-                                <x-input.select wire:model="filters.type-id" id="filter-type-id">
+                                <x-input.select wire:model="filters.type-id" id="filter-type-id" class="py-2">
                                     <option value="" >Select type...</option>
                                     @foreach ($holidayTypes as $value => $type)
                                     <option value="{{ $type->id }}">{{'#'.$type->id.' '.$type->code }}</option>
@@ -99,10 +99,10 @@
                             </x-input.group>
                         </div>
                     </div>
-                    <div class="flex flex-row sm:space-x-2">
-                        <div class="basis-1/4">
+                    <div class="flex flex-row space-x-2">
+                        <div class="basis-1/2 sm:basis-1/4">
                             <x-input.group  for="filter-lang" label="lang">
-                                <x-input.select wire:model="filters.lang" id="filter-lang">
+                                <x-input.select wire:model="filters.lang" id="filter-lang" class="py-2">
                                     <option value="" ></option>
                                     @foreach (config('app.langs') as $lang)
                                         <option value="{{ $lang }}">{{$lang }}</option>
@@ -110,7 +110,7 @@
                                 </x-input.select>
                             </x-input.group>
                         </div>
-                        <div class="basis-1/2">
+                        <div class="basis-1/2 sm:basis-1/4">
                             <x-input.group  for="filter-user-search" label="User">
                                 <x-input.autocomplete 
                                     wire:model="userSearch" 

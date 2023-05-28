@@ -77,7 +77,7 @@
             @if ($showFilters)
             <div class="bg-cool-gray-200 p-4 rounded shadow-inner flex relative">
                 <div class="w-1/2 pr-2 space-y-4">
-                    <div class="flex flex-row space-x-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
                         <div class="basis-1/4">
                             <x-input.group  for="filter-id" label="Id">
                                 <x-input.text wire:model.lazy="filters.id" id="filter-id" />
@@ -104,7 +104,7 @@
                             </x-input.group>
                         </div>
                     </div>
-                    <div class="flex flex-row space-x-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
                         <div class="basis-1/2">
                             <x-input.group  for="filter-street" label="Street">
                                 <x-input.text wire:model.lazy="filters.street" id="filter-street" />
@@ -117,7 +117,7 @@
                         </div>
                     </div>
                     <div class="flex flex-row space-x-2">
-                        <div class="basis-1/2">
+                        <div class="sm:basis-1/2">
                             <x-input.group  for="filter-country" label="Country">
                                 <x-input.text wire:model.lazy="filters.country" id="filter-country" />
                             </x-input.group>
@@ -125,7 +125,7 @@
                     </div>
                 </div>
                 <div class="w-1/2 pl-2 space-y-4">
-                    <div class="flex flex-row space-x-2">
+                    <div class="flex flex-col sm:flex-row sm:space-x-2">
                         <div class="basis-1/2">
                             <x-input.group  for="filter-date-min" label="Minimum created date">
                                 <x-input.date wire:model="filters.date-created-min" id="filter-date-min" placeholder="MM/DD/YYYY" />
