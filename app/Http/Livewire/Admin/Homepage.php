@@ -60,7 +60,6 @@ class Homepage extends Component
         $this->lang = App::currentLocale();
         $json = json_decode(Storage::get("homepage.json"), true);
         $this->homepage = $json;
-        logger($this->homepage[$this->lang]);
     }
 
     public function setAutoCompleteItem($type, $text, $id)
