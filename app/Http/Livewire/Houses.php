@@ -131,7 +131,6 @@ class Houses extends Component
             ->where('house_titles.lang', '=', App::currentLocale())->whereActive(true)
             ->whereNotNull('house_publications.startdate')
             ->whereNotNull('house_publications.enddate');
-        logger($query->toSql());
         return $this->applySorting($query);
     }
 

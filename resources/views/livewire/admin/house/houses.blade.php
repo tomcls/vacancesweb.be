@@ -179,9 +179,10 @@
                     <x-table.heading sortable multi-column wire:click="sortBy('name')" :direction="$sorts['name'] ?? null" >name</x-table.heading>
                     <x-table.heading  >type</x-table.heading>
                     <x-table.heading  >User id</x-table.heading>
-                    <x-table.heading  >Position</x-table.heading>
+                    <x-table.heading  >published</x-table.heading>
                     <x-table.heading >Active</x-table.heading>
-                    <x-table.heading sortable multi-column wire:click="sortBy('lang')" :direction="$sorts['lang'] ?? null">lang</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('created_at')" :direction="$sorts['created_at'] ?? null">created</x-table.heading>
+                    <x-table.heading sortable multi-column wire:click="sortBy('updated_at')" :direction="$sorts['updated_at'] ?? null">updated</x-table.heading>
                 </x-slot>
 
                 <x-slot name="body">
@@ -204,34 +205,38 @@
                     <x-table.row wire:loading.class.delay="opacity-70" wire:key="row-{{ $row->id }}">
                         <x-table.cell class="px-1"  ><x-input.checkbox wire:model="selected" value="{{ $row->id }}" /> </x-table.cell>
                         <x-table.cell >
-                            <a href="{{ route('admin.house').'/'.$row->house->id }}">{{ $row->house->id }}</a>
+                            <a href="{{ route('admin.house').'/'.$row->id }}">{{ $row->id }}</a>
                         </x-table.cell>
                         <x-table.cell >
-                            <img src="{{$row->house->cover?$row->house->cover->url('small'):null}}" alt="" class="rounded h-16 w-20"/>
+                            <img src="{{$row->cover?$row->cover->url('small'):null}}" alt="" class="rounded h-16 w-20"/>
                         </x-table.cell>
                         <x-table.cell>
                             <span href="#" class="inline-flex space-x-2 truncate text-sm leading-5">
                                 <p class="text-cool-gray-600 truncate">
-                                    <a href="{{ route('admin.house').'/'.$row->house->id }}">{{ $row->name }}</a>
+                                    <a href="{{ route('admin.house').'/'.$row->id }}">{{ $row->title }}</a>
                                     
                                 </p>
                             </span>
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->house->houseType->code }}
+                            {{ $row->type_name }}
                         </x-table.cell>
                         <x-table.cell>
-                            <x-button.link wire:click="edit({{ $row->id }})">{{ $row->house->user->id.'# '.$row->house->user->firstname.' '.$row->house->user->lastname }}</x-button.link>
-                            <br/><small> {{ $row->house->user->email }}</small>
+                            <x-button.link wire:click="edit({{ $row->id }})">{{ $row->user->id.'# '.$row->user->firstname.' '.$row->user->lastname }}</x-button.link>
+                            <br/><small> {{ $row->user->email }}</small>
+                        </x-table.cell>
+                        <x-table.cell class="text-center">
+                            <span class="inline-block h-2 w-2 flex-shrink-0 rounded-full {{ ($row->startdate <= now() && $row->enddate >= now())? 'bg-green-400':'bg-pink-600' }}"></span> <br/>
+                            <small>{{$row->startdate}} <br/>{{$row->enddate}}</small>
+                        </x-table.cell>
+                        <x-table.cell class="text-center">
+                            <span class="inline-block h-2 w-2 flex-shrink-0 rounded-full {{ ($row->active)? 'bg-green-400':'bg-pink-600' }}"></span>
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->house->hasPosition }}
+                            {{ $row->created_at }}
                         </x-table.cell>
                         <x-table.cell>
-                            {{ $row->house->active }}
-                        </x-table.cell>
-                        <x-table.cell>
-                            {{ $row->lang }}
+                            {{ $row->updated_at }}
                         </x-table.cell>
                     </x-table.row>
                     @empty

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\House;
 
+use App\Models\House;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\HouseType;
@@ -94,23 +95,53 @@ class Houses extends Component
 
     public function getRowsQueryProperty()
     {
-        $query = HouseTitle::query()
-            ->when($this->filters['name'], fn ($query, $name) => $query->where('name', 'like', '%' . $name . '%'))
-            ->when($this->filters['lang'], fn ($query, $lang) => $query->where('lang', '=', $lang))
-            ->when($this->filters['search'], fn ($query, $search) =>
-            $query->where('name', 'like', '%' . $search . '%'))
-            ->when($this->filters['type-id'], fn ($query, $id) =>
-            $query->whereHas('house', fn ($query) => $query->where('house_type_id', $id)))
-            ->when($this->filters['user-id'], fn ($query, $id) =>
-            $query->whereHas('house', fn ($query) => $query->where('user_id', $id)))
-            ->when($this->filters['has-position'], fn ($query) =>
-            $query->whereHas('house', fn ($query) => $query->whereNotNull('longitude')))
-            ->when($this->filters['no-position'], fn ($query) =>
-            $query->whereHas('house', fn ($query) => $query->whereNull('longitude')))
-            ->when($this->filters['is-active'], fn ($query) =>
-            $query->whereHas('house', fn ($query) => $query->where('active', '=', 1)))
-            ->when($this->filters['not-active'], fn ($query) =>
-            $query->whereHas('house', fn ($query) => $query->where('active', '=', 0)));
+        $query = House::query()
+        ->select(DB::raw('
+        houses.id, 
+        houses.user_id,
+        houses.active,
+        houses.house_type_id, 
+        houses.longitude, 
+        houses.latitude, 
+        houses.created_at,
+        houses.updated_at,
+        house_titles.lang,
+        house_titles.name as title, 
+        house_titles.slug, 
+        house_type_translations.name as type_name, 
+        houses.house_type_id, 
+        houses.acreage, 
+        houses.number_people, 
+        house_seasons.min_nights, 
+        house_seasons.week_price, 
+        house_seasons.day_price, 
+        house_seasons.weekend_price,
+        house_publications.startdate,
+        house_publications.enddate '))
+        ->leftJoin('house_titles', 'house_titles.house_id', '=', DB::raw('houses.id and house_titles.lang = \'' . $this->filters['lang'] . '\''))
+        ->leftJoin('house_types', 'house_types.id', '=', 'houses.house_type_id')
+        ->leftJoin('house_type_translations', 'house_type_translations.house_type_id', '=', DB::raw('house_types.id and house_type_translations.lang = \'' . $this->filters['lang'] . '\''))
+        ->leftJoin('house_images', 'house_images.house_id', '=', DB::raw('houses.id and house_images.sort = 0 '))
+        ->leftJoin('house_publications', 'house_publications.house_id', '=', DB::raw('houses.id and now() between house_publications.startdate and house_publications.enddate and house_publications.startdate is not null and house_publications.enddate is not null '))
+        ->leftJoin('house_seasons', 'house_seasons.house_id', '=', DB::raw('houses.id and now() between house_seasons.startdate and house_seasons.enddate'))
+        ->when($this->filters['name'], fn ($query, $name) => $query->where('house_titles.name', 'like', '%' . $name . '%'))
+        ->when($this->filters['lang'], fn ($query, $lang) => $query->where('house_titles.lang', '=', $lang))
+        ->when($this->filters['search'], fn ($query, $search) =>
+        $query->where('name', 'like', '%' . $search . '%'))
+        ->when($this->filters['type-id'], fn ($query, $id) =>
+        $query->where('houses.house_type_id', $id))
+        ->when($this->filters['user-id'], fn ($query, $id) =>
+        $query->where('user_id', $id))
+        ->when($this->filters['has-position'], fn ($query) =>
+        $query->whereNotNull('longitude'))
+        ->when($this->filters['no-position'], fn ($query) =>
+        $query->whereNull('longitude'))
+        ->when($this->filters['is-active'], fn ($query) =>
+        $query->where('active', '=', 1))
+        ->when($this->filters['not-active'], fn ($query) =>
+        $query->where('active', '=', 0))
+        ->when($this->filters['id'], fn ($query, $id) =>
+        $query->where('houses.id', $id));
 
         return $this->applySorting($query);
     }
