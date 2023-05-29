@@ -36,6 +36,7 @@ class HouseAmenities extends Component
         $this->houseAmenities = HouseAmenity::whereHouseId($houseId)->get()->pluck('amenity_id');
         $this->houseClassifications = HouseAmenity::whereHouseId($houseId)->whereNotNull('value')->get()->pluck( 'value','amenity_id');
     }
+
     public function save() {
         HouseAmenity::whereHouseId($this->houseId)->delete();
         $houseAmenities = [];

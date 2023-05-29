@@ -43,7 +43,7 @@ class HouseCosts extends Component
         if(count($houseCosts)) {
             HouseCost::insert($houseCosts);
         }
-        $this->notify(['message'=>'Amenities well saved','type'=>'success']);
+        $this->notify(['message'=>'Costs well saved','type'=>'success']);
     }
     public function render()
     {

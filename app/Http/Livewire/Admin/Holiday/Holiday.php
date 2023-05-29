@@ -17,6 +17,9 @@ class Holiday extends Component
     public  $holidayId = null;
     protected $queryString = ['tabs'];
 
+    protected $listeners = [
+        'setHolidayId' => 'setHolidayId',
+    ];
     public function mount(Request $request) {
         $this->holidayId = $request['id'];
     }
@@ -26,6 +29,10 @@ class Holiday extends Component
             $this->tabs[$key]=false;
         }
         $this->tabs[$tabname] = true;
+    }
+
+    public function setHolidayId($holidayId) {
+        $this->holidayId = $holidayId;
     }
 
     public function render()

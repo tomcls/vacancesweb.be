@@ -22,6 +22,9 @@ class House extends Component
     public  $houseId = null;
     protected $queryString = ['tabs'];
 
+    protected $listeners = [
+        'setHouseId' => 'setHouseId',
+    ];
     public function mount(Request $request)
     {
         $this->houseId = $request['id'];
@@ -33,6 +36,10 @@ class House extends Component
             $this->tabs[$key] = false;
         }
         $this->tabs[$tabname] = true;
+    }
+    public function setHouseId($houseId) {
+        $this->houseId = $houseId;
+        logger('houseId='.$houseId);
     }
 
     public function render()

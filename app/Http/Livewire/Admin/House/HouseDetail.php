@@ -54,7 +54,7 @@ class HouseDetail extends Component
         'onMarkerDragend' => 'setLocation',
         'setTitle' => 'setTitle'
     ];
-    public function mount(Request $request)
+    public function mount($houseId)
     {
         $this->houseTypes = HouseType::all();
 
@@ -66,7 +66,7 @@ class HouseDetail extends Component
         });
 
         try {
-            $this->house = HouseModel::findOrFail($request['id']);
+            $this->house = HouseModel::findOrFail($houseId);
             $this->active = $this->house->active;
             $this->house->houseTitles->map(function ($title) {
                 $this->titles[$title->lang] = $title;
@@ -131,7 +131,7 @@ class HouseDetail extends Component
             }
             HouseRegion::insertOrIgnore($houseRegions);
         }
-
+        $this->emit("setHouseId", $this->house->id);
         $this->notify(['message'=>'House well saved','type'=>'success']);
     }
 

@@ -15,6 +15,7 @@
                 onprocessfiles: () => {
                     Livewire.emit('saveImages');
                     pond.removeFiles();
+                    
                 }
             });
             pond = window.FilePond.create($refs.input);"

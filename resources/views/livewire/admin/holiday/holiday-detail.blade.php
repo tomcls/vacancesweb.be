@@ -210,10 +210,4 @@
       </div>
     </form>
 </div>
-@push('css')
-  @vite(['node_modules/pikaday/css/pikaday.css','node_modules/suneditor/dist/css/suneditor.min.css','node_modules/mapbox-gl/dist/mapbox-gl.css','node_modules/filepond/dist/filepond.min.css','node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'])
-@endpush
-@push('scripts')
-  @vite(['resources/js/suneditor.js','resources/js/mapbox.js','resources/js/filepond.js','resources/js/pickaday.js'])
-@endpush
 

@@ -44,12 +44,11 @@ class HolidayImages extends Component
             $this->total = count($images);
             return $images;
         } catch (Exception $e) {
-            logger($e->getMessage());
+            return [];
         }
     }
     public function save()
     {
-        logger('save');
         $destinationPathThumbnail = storage_path('app/holidays/images') . '/' . $this->holidayId;
         $this->notify(['message'=>'Start processing image(s)... please wait','type'=>'alert']);
         try {

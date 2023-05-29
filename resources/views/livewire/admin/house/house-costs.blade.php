@@ -4,7 +4,7 @@
             <h3 class="text-base font-semibold leading-6 text-gray-900">Extra costs</h3>
             <div class="mt-3 sm:ml-4 sm:mt-0">
               <div class="flex rounded-md shadow-sm">
-                <button type="submit" wire:click="create" class=" rounded relative -ml-px sm:inline-flex items-center gap-x-1.5  px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <button type="submit"  class=" rounded relative -ml-px sm:inline-flex items-center gap-x-1.5  px-3 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                   Save
                   <x-icon.right class="text-gray-900 bg-gray-50" />
                 </button>

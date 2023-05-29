@@ -1,6 +1,7 @@
 <div class="pt-10"
     x-data="{
         initDragAndDrop: function() {
+            console.log('initdrag and drop')
             let root = document.querySelector('[drag-root]');
             root.querySelectorAll('[drag-item]').forEach(el => {
             el.addEventListener('dragstart', e => {

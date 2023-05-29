@@ -207,7 +207,7 @@
                             <a href="{{ route('admin.holiday').'/'.$row->holiday->id }}">{{ $row->holiday->id }}</a>
                         </x-table.cell>
                         <x-table.cell >
-                            <img src="{{$row->holiday->cover->url('small')}}" alt="" class="rounded h-16 w-20"/>
+                            <img src="{{$row->holiday->cover?$row->holiday->cover->url('small'):null}}" alt="" class="rounded h-16 w-20"/>
                         </x-table.cell>
                         <x-table.cell>
                             <span href="#" class="inline-flex space-x-2 truncate text-sm leading-5">

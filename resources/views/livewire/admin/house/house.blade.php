@@ -38,7 +38,7 @@
       </div>
       <div class="{{$tabs['detail']?'':'hidden'}}">
         @if ($tabs['detail'])
-          @livewire('admin.house.house-detail')
+          @livewire('admin.house.house-detail',['houseId'=>$houseId])
         @endif
       </div>
       <div class="{{$tabs['images']==1?'':'hidden'}}">
@@ -88,8 +88,8 @@
       </div>
 </div>
 @push('css')
-  @vite(['node_modules/pikaday/css/pikaday.css'])
+  @vite(['node_modules/pikaday/css/pikaday.css','node_modules/suneditor/dist/css/suneditor.min.css','node_modules/mapbox-gl/dist/mapbox-gl.css','node_modules/filepond/dist/filepond.min.css','node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'])
 @endpush
 @push('scripts')
-@vite(['resources/js/pickaday.js','resources/js/moment.js'])
+  @vite(['resources/js/suneditor.js','resources/js/mapbox.js','resources/js/filepond.js','resources/js/moment.js','resources/js/pickaday.js'])
 @endpush

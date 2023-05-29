@@ -51,7 +51,7 @@ class HolidayDetail extends Component
         'onMarkerDragend' => 'setLocation',
         'setTitle' => 'setTitle'
     ];
-    public function mount(Request $request)
+    public function mount($holidayId)
     {
         $this->holidayTypes = HolidayType::all();
 
@@ -63,7 +63,7 @@ class HolidayDetail extends Component
         });
 
         try {
-            $this->holiday = HolidayModel::findOrFail($request['id']);
+            $this->holiday = HolidayModel::findOrFail($holidayId );
             $this->active = $this->holiday->active;
             $this->holiday->holidayTitles->map(function ($title) {
                 $this->titles[$title->lang] = $title;
@@ -128,7 +128,7 @@ class HolidayDetail extends Component
             }
             HolidayRegion::insertOrIgnore($holidayRegions);
         }
-
+        $this->emit("setHolidayId", $this->holiday->id);
         $this->notify(['message'=>'Holiday well saved','type'=>'success']);
     }
 

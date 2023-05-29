@@ -33,20 +33,9 @@ class HouseImages extends Component
 
     public function mount($houseId)
     {
-        logger('houseImages');
         $this->houseId = $houseId;
     }
 
-    public function getImagesProperty()
-    {
-        try {
-            $images = House::find($this->houseId)->houseImages;
-            $this->total = count($images);
-            return $images;
-        } catch (Exception $e) {
-            logger($e->getMessage());
-        }
-    }
     public function save()
     {
         $destinationPathThumbnail = storage_path('app/houses/images') . '/' . $this->houseId;
@@ -135,6 +124,16 @@ class HouseImages extends Component
         });
     }
 
+    public function getImagesProperty()
+    {
+        try {
+            $images = House::find($this->houseId)->houseImages;
+            $this->total = count($images);
+            return $images??[];
+        } catch (Exception $e) {
+            return [];
+        }
+    }
     public function render()
     {
         return view('livewire.admin.house.house-images', [
