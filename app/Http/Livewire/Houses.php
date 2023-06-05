@@ -2,16 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use App\Data\Enums\AmenityCategoryEnum;
-use App\Models\AmenityTranslation;
-use App\Models\Country;
+use Carbon\Carbon;
 use App\Models\House;
-use App\Models\HouseRegion;
-use App\Models\Region;
 use Livewire\Component;
+use App\Models\HouseRegion;
+use App\Models\HouseAmenity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Laravel\Octane\Facades\Octane;
 use Illuminate\Support\Facades\App;
 use App\Models\HouseTypeTranslation;
 use App\Traits\DataTable\WithSorting;
@@ -22,43 +19,42 @@ use App\Traits\DataTable\WithPerPagePagination;
 class Houses extends Component
 {
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
-    public $types = [];
     public $amenities = [];
     public $lang;
     public $locationSearch;
     public $locations = [];
     public $locationId = null;
+    public $dateFrom = null;
+    public $dateTo = null;
+    public $numberPeople = null;
 
-
+    public $houseTypes = [];
     public $houseAmenities = [];
     public $houseClassifications = [];
 
-    public $comforts = [];
-    public $classifications = [];
-    public $options = [];
-    public $arounds = [];
-    public $services = [];
-
     public $tab = 'amenities';
 
-    protected $listeners = ['setLocationId' => 'setLocationId'];
+    protected $listeners = [
+        'numberPeople'=>'setNumberPeople',
+        'dateTo'=>'setDateTo',
+        'dateFrom'=>'setDateFrom',
+        'setLocationId' => 'setLocationId',
+        'moreFilters'=>'setMoreFilters'];
 
-    public function mount(Request $request)
+    public function mount(Request $request, $search = null)
     {
         $this->lang = App::currentLocale();
-        $this->types = HouseTypeTranslation::whereLang($this->lang)->orderBy('name', 'asc')->get();
-        
-        $this->comforts = AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Confort))->orderBy('name', 'asc')->get();
-        $this->options = AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Options))->orderBy('name', 'asc')->get();
-        $this->arounds = AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Around))->orderBy('name', 'asc')->get();
-        $this->services = AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Services))->orderBy('name', 'asc')->get();
-        $this->classifications = AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Classification))->orderBy('name', 'asc')->get();
+        if($search && $search['houseType']) {
+            $this->houseTypes[] = $search['houseType']->house_type_id;
+        }
+        if($search && $search['region']) {
+            $this->locationId = $search['region']->region_id;
+        }
     }
 
     
     public function getRowsQueryProperty()
     {
-        logger('getRowsQueryProperty');
         $query = House::query()
             ->select(DB::raw('
             houses.id, 
@@ -88,6 +84,26 @@ class Houses extends Component
             ->when($this->locationId, function ($query, $id)  {
                 return $query->whereIn(db::raw('houses.id'), HouseRegion::whereRegionId($id)->get()->pluck('house_id') );
             })
+            ->when($this->dateFrom, function ($query, $dateFrom)  {
+                return $query->where(DB::raw('house_seasons.startdate'), '<=', Carbon::parse($dateFrom) );
+            })
+            ->when($this->dateTo, function ($query, $dateTo)  {
+                return $query->where(DB::raw('house_seasons.enddate'), '>=', Carbon::parse($dateTo) );
+            })
+            ->when($this->numberPeople, function ($query, $numberPeople)  {
+                return $query->where('number_people', '>=', $numberPeople );
+            })
+            ->when($this->amenities, function ($query, $id)  {
+                return $query->whereIn(db::raw('houses.id'), 
+                HouseAmenity::select('house_id')
+                ->whereIn('amenity_id',$this->amenities )
+                ->where(DB::raw('house_id'),'=',DB::raw('houses.id'))
+                ->groupBy('house_id')
+                ->having(DB::raw('count(*)'), '=', count($this->amenities)));
+            })
+            ->when($this->houseTypes, function ($query, $id)  {
+                return $query->whereIn(DB::raw('houses.house_type_id'),$this->houseTypes);
+            })
             ->where('regions.level', '=', 'city')
             ->where('house_titles.lang', '=', App::currentLocale())
             ->where('houses.active',true)
@@ -99,28 +115,35 @@ class Houses extends Component
     public function getRowsProperty()
     {
         return $this->applyPagination($this->rowsQuery);
-        /* return $this->cache(function () {
-            return $this->applyPagination($this->rowsQuery);
-        });*/
     }
+
     public function setLocationId($id) {
-        logger('locationId='.$id);
         $this->locationId = $id;
     }
-    public function hydrate() {
-        logger('hydrate');
+    public function setDateFrom($date) {
+        $this->dateFrom = $date;
     }
+
+    public function setDateTo($date) {
+        $this->dateTo = $date;
+    }
+    public function setNumberPeople($p) {
+        $this->numberPeople = $p;
+    }
+    public function setMoreFilters($amenities,$types) {
+        $this->amenities = $amenities;
+        $this->houseTypes = $types;
+    }
+
     public function dehydrate() {
         $this->emit('loadImages');
     }
-    public function updated() {
-        logger('updated');
-    }
+ 
     public function render()
     {
-        logger('render');
         return view('livewire.houses', [
             'rows' => $this->rows,
         ])->layout('layouts.base');
     }
 }
+// select * from houses where houses.id in (select house_id from house_amenities where amenity_id in (''))

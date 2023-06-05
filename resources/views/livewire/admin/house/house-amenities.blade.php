@@ -19,7 +19,7 @@
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4 mt-4">
             @foreach ($comforts as $amenity)
                 <div class="basis-1/4">
-                    <x-input.checkbox wire:model="houseAmenities"  value="{{$amenity->amenity->id}}" label="{{$amenity->name}}" id="{{$amenity->amenity->code}}" />
+                    <x-input.checkbox wire:model="houseAmenities"  value="{{$amenity->amenity->id}}" label="{{$amenity->amenity->id}}-{{$amenity->name}}" id="{{$amenity->amenity->code}}" />
                 </div>
             @endforeach
         </div>

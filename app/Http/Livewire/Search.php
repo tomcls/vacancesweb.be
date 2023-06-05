@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Octane\Facades\Octane;
 use Illuminate\Support\Facades\App;
 use App\Models\HouseTypeTranslation;
+use Illuminate\Support\Facades\Cache;
 
 class Search extends Component
 {
@@ -17,10 +18,15 @@ class Search extends Component
     public $locationSearch;
     public $locations = [];
     public $types = [];
+    public $dateFrom = null;
+    public $dateTo = null;
+    public $numberPeople = null;
     protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem'];
     public function mount() {
         $this->lang = App::currentLocale();
-        $this->types = HouseTypeTranslation::whereLang($this->lang)->orderBy('name', 'asc')->get();
+        $this->types = Cache::remember('house_types', 10000, function () {
+            return HouseTypeTranslation::whereLang(App::currentLocale())->orderBy('name', 'asc')->get();
+        });
     }
     public function locationsResult()
     {
@@ -62,11 +68,17 @@ class Search extends Component
     public function setAutoCompleteItem($type, $text, $id, $typ)
     {
         $this->locationSearch = $text;
-        //$this->locationId = $id;
         $this->emit('setLocationId',$id);
-        logger("type=".$type." text=".$text." id=".$id." typ=".$typ);
     }
-
+    public function updatedDateFrom($date) {
+        $this->emit('dateFrom',$date);
+    }
+    public function updatedNumberPeople($people) {
+        $this->emit('numberPeople',$people);
+    }
+    public function updatedDateTo($date) {
+        $this->emit('dateTo',$date);
+    }
     public function render()
     {
         return view('livewire.search');

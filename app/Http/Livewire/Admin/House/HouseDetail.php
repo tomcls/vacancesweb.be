@@ -47,6 +47,9 @@ class HouseDetail extends Component
         'house.house_type_id' => 'required',
         'house.email' => 'required',
         'house.phone' => 'required',
+        'house.rooms' => 'sometimes',
+        'house.acreage' => 'sometimes',
+        'house.number_people' => 'sometimes',
     ];
 
     protected $listeners = [

@@ -39,6 +39,8 @@ use App\Http\Livewire\Holidays as LivewireHolidays;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Houses as LivewireHouses;
 use App\Http\Livewire\Profile;
+use App\Http\Middleware\SearchMiddelware;
+use App\Models\HouseTypeTranslation;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +67,11 @@ Route::get('/index', Home::class)->name('home');
 Route::get('/logo-image', [LogoController::class,'index'])->name('logo');
 
 Route::get('/vacances', LivewireHolidays::class)->name('holidays');
-Route::get('/location-vacances', LivewireHouses::class)->name('houses');
+Route::get('/chercher/location-vacances', LivewireHouses::class)->name('houses');
+Route::get('/chercher/location-vacances/{search}', LivewireHouses::class)->where('search','.*')->name('houses')->middleware(SearchMiddelware::class);
+/*Route::get('/chercher/location-vacances/{house_type}/{search}', function (string $houseType,string $search) {
+    return 'User '.$houseType;
+})->whereIn('house_type',HouseTypeTranslation::select('slug')->get()->pluck('slug'))->where('search','.*');*/
 /**
  * Authentication
  */
