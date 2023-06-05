@@ -35,7 +35,7 @@ class SearchMiddelware
         $houseType = $houseTypes->keyBy('slug')->get(strtolower($uriList[0]));
         if(count($uriList) <= 2 && $houseType) {
             $country = CountryTranslation::whereSlug(strtolower($uriList[count($uriList)-1]))->first();
-        } elseif(count($uriList) <= 2 && !$houseType) {
+        } elseif(count($uriList) < 2 && !$houseType) {
             $country = CountryTranslation::whereSlug(strtolower($uriList[0]))->get();
         } else {
             $region = RegionTranslation::whereSlug(strtolower($uriList[count($uriList)-1]))->first();
