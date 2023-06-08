@@ -19,14 +19,15 @@ class MoreFilters extends Component
     public $arounds = [];
     public $services = [];
     public $lang;
-    
+
     public $types = [];
     public $houseTypes = [];
     public $houseAmenities = [];
     public $houseClassifications = [];
 
-    public function mount(Request $request)
+    public function mount($searchByUri = null)
     {
+        $this->houseTypes[] =  $searchByUri['houseType']->house_type_id ?? null;
         $this->lang = App::currentLocale();
         $this->comforts = Cache::remember('comforts', 10000, function () {
             return AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Confort))->orderBy('name', 'asc')->get();
@@ -40,15 +41,13 @@ class MoreFilters extends Component
         $this->services = Cache::remember('services', 10000, function () {
             return AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Services))->orderBy('name', 'asc')->get();
         });
-        $this->classifications = Cache::remember('services', 10000, function () {
-            return AmenityTranslation::with('amenity')->whereLang($this->lang)->whereHas('amenity', fn ($query) => $query->where('category', AmenityCategoryEnum::Classification))->orderBy('name', 'asc')->get();
-        });
         $this->types = Cache::remember('house_types', 10000, function () {
             return HouseTypeTranslation::whereLang($this->lang)->orderBy('name', 'asc')->get();
         });
     }
-    public function search() {
-        $this->emitUp('moreFilters',$this->houseAmenities,$this->houseTypes );
+    public function search()
+    {
+        $this->emitUp('moreFilters', $this->houseAmenities, $this->houseTypes);
     }
     public function render()
     {

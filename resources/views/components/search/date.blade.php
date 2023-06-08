@@ -20,7 +20,7 @@
         onSelect: function() {console.log(this.getMoment()); }
     })"
     x-on:change="value = $event.target.value">
-    <div class="relative  rounded-none shadow-sm border-l-0 border-r-0">
+    <div class="hidden sm:block relative  rounded-none shadow-sm border-l-0 border-r-0">
       <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 border-l-0">
         <x-icon.calendar class="h-5 w-5 text-blue-400" />
       </div>

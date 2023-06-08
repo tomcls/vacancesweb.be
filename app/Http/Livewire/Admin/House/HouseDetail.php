@@ -132,6 +132,7 @@ class HouseDetail extends Component
             foreach ($digResult['region'] as $level) {
                array_push($houseRegions,['region_id'=>$level['geom']->id,'house_id'=>$this->house->id]);
             }
+            HouseRegion::whereHouseId($this->house->id)->delete();
             HouseRegion::insertOrIgnore($houseRegions);
         }
         $this->emit("setHouseId", $this->house->id);

@@ -32,17 +32,19 @@
       })" 
       @keydown.window.escape="open = false" @click.away="open = false" class="flex min-h-full flex-col">
     <x-layouts.menu position="relative" background="bg-white" textColor="text-black" />
-    @livewire('search',[],key('searchbar'))
+    @livewire('search',['searchByUri'=>$searchByUri],key('searchbar'))
     <div class="mx-auto flex w-full  items-start gap-x-4 px-0 pt-0 sm:px-0 lg:px-2 ">
+      <!-- Notification Success or alert -->
+        
         <!-- Background backdrop, show/hide based on slide-over state. -->
         <div x-show="open" 
         @click="open = false" 
         style="display: none;"
         class="fixed inset-0"></div>
-        @livewire('more-filters',[],key('moreFilters'))
+        @livewire('more-filters',['searchByUri'=>$searchByUri],key('moreFilters'))
         <main class="flex-1" >
-            <h1 class="font-bold py-4 text-sky-600 pl-1"><span>{{$rows->total()}}</span> <span class=" text-gray-800">Locations de vacances</span></h1>
-            <div class="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-4">
+            <h1 class="mx-2 sm:mx-0 font-bold py-4 text-sky-600 pl-1"><span>{{$rows->total()}}</span> <span class=" text-gray-800">{{strtolower(($searchByUri['houseType']->name)??'locations' )}} de vacances à louer {{!empty($searchByUri['region']) || !empty($searchByUri['country'])?' - ':''}} {{$searchByUri['region']->name ?? $searchByUri['country']->name ?? null}}</span></h1>
+            <div class="px-2 sm:px-0 grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-4">
               @forelse ($rows as $row)
                 <div class="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
                   <div class="aspect-h-3 aspect-w-4 bg-gray-200 sm:aspect-none group-hover:opacity-75 h-52">
@@ -51,7 +53,7 @@
                   <div class="flex flex-1 flex-col space-y-2 p-4">
                     <h2 class="text-sm font-medium text-gray-900">
                       <a href="#">
-                        <span aria-hidden="true" class="absolute inset-0"></span>
+                        <span aria-hidden="true" class=" inset-0"></span>
                         {{$row->id}} {{$row->title}}
                       </a>
                     </h2>
@@ -71,7 +73,7 @@
                           <p class="text-sm italic  text-gray-700">{{$row->min_nights}} nuits min.</p>
                           <p class="text-base font-medium text-gray-900">€{{$row->week_price}} / semaine</p>
                         </div>
-                        <x-button.secondary class="rounded-md px-2 text-sky-500"><x-icon.mail class="text-sky-500"/></x-button.secondary>
+                        <x-button.secondary class="rounded-md px-2 text-sky-500" wire:click.prevent="$emit('openContactForm',{{$row->id}})"><x-icon.mail class="text-sky-500"/></x-button.secondary>
                         <x-button.secondary class="rounded-md px-2"><x-icon.phone class="text-sky-500"/></x-button.secondary>
                     </div>
                   </div>
@@ -112,6 +114,7 @@
             </div>
         </aside>
     </div>
+    @livewire('house-contact',[],key('house-contact'))
   </div>
   @push('css')
     @vite(['node_modules/mapbox-gl/dist/mapbox-gl.css','node_modules/pikaday/css/pikaday.css'])

@@ -9,5 +9,5 @@
 --}}
 
 <div class="flex ">
-    <textarea {{ $attributes }} rows="20" class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-md"></textarea>
+    <textarea  rows="5" {{ $attributes->merge(['class' =>' block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 rounded-md focus:ring-2  focus:ring-inset  focus:ring-sky-500 '])}} {{ $attributes }}></textarea>
 </div>

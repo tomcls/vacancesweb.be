@@ -126,6 +126,7 @@ class HolidayDetail extends Component
             foreach ($digResult['region'] as $level) {
                array_push($holidayRegions,['region_id'=>$level['geom']->id,'holiday_id'=>$this->holiday->id]);
             }
+            HolidayRegion::whereHolidayId($this->holiday->id)->delete();
             HolidayRegion::insertOrIgnore($holidayRegions);
         }
         $this->emit("setHolidayId", $this->holiday->id);

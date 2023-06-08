@@ -34,7 +34,7 @@
     placeholder:text-gray-400 
     focus:ring-2 
     focus:ring-inset 
-    focus:ring-indigo-600 
+    focus:ring-sky-500 
     sm:text-sm 
     sm:leading-6' . ($leadingAddOn ? ' rounded-none rounded-r-md ' : '') . ($leadingIcon ? '   pl-10 rounded-md' : ''). ' ']) }}/>
             

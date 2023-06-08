@@ -9,7 +9,7 @@
             })
         }
     }"
-    @notify.window="let notification = $event.detail; notifications.push(notification); setTimeout(() => { remove(notification) }, 2000)"
+    @notify.window="let notification = $event.detail; notifications.push(notification); setTimeout(() => { remove(notification) }, 60000)"
     class="fixed inset-0 flex flex-col items-end justify-center px-4 py-6 pointer-events-none sm:p-6 sm:justify-start space-y-4"
 >
     <template x-for="(notification, notificationIndex) in notifications" :key="notificationIndex" hidden>

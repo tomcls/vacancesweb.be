@@ -22,7 +22,10 @@ class Search extends Component
     public $dateTo = null;
     public $numberPeople = null;
     protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem'];
-    public function mount() {
+
+    public function mount($searchByUri = null)
+    {
+        $this->locationSearch = $searchByUri['region']->name ?? $searchByUri['country']->name ?? null;
         $this->lang = App::currentLocale();
         $this->types = Cache::remember('house_types', 10000, function () {
             return HouseTypeTranslation::whereLang(App::currentLocale())->orderBy('name', 'asc')->get();
@@ -65,19 +68,22 @@ class Search extends Component
             $this->locations = array_merge($regionsResult, $countriesResult, $housesResult);
         }
     }
-    public function setAutoCompleteItem($type, $text, $id, $typ)
+    public function setAutoCompleteItem($type, $text, $id)
     {
         $this->locationSearch = $text;
-        $this->emit('setLocationId',$id);
+        $this->emit('setLocationId', $id);
     }
-    public function updatedDateFrom($date) {
-        $this->emit('dateFrom',$date);
+    public function updatedDateFrom($date)
+    {
+        $this->emit('dateFrom', $date);
     }
-    public function updatedNumberPeople($people) {
-        $this->emit('numberPeople',$people);
+    public function updatedNumberPeople($people)
+    {
+        $this->emit('numberPeople', $people);
     }
-    public function updatedDateTo($date) {
-        $this->emit('dateTo',$date);
+    public function updatedDateTo($date)
+    {
+        $this->emit('dateTo', $date);
     }
     public function render()
     {

@@ -1,7 +1,9 @@
 <header class="{{$position}} inset-x-0 top-0 z-50">
+    
     <nav class="flex items-center justify-between p-6 lg:px-8  {{$background}} opacity-80" aria-label="Global">
+      <x-notification />
       <div class="flex lg:flex-1">
-        <a @click="sidebarOpen = true" href="#" class="-m-1.5 p-1.5">
+        <a @click="sidebarOpen = true" href="{{route('home')}}" class="-m-1.5 p-1.5">
           <span class="sr-only">Your Company</span>
           <img class="h-6 w-auto " src="@include('components.icon.preload-image')" data-src="{{route('logo')}}?color=3b82f6" alt="">
         </a>
@@ -15,7 +17,7 @@
         </button>
       </div>
       <div class="hidden lg:flex lg:gap-x-12">
-        <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Locations</a>
+        <a href="{{route('houses')}}" class="text-sm font-semibold leading-6 {{$textColor}}">Locations</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Voyages</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Partenaires</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Articles</a>
@@ -60,7 +62,7 @@
         <div class="mt-6 flow-root">
           <div class="-my-6 divide-y divide-gray-500/25">
             <div class="space-y-2 py-6">
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Locations</a>
+              <a href="{{route('houses')}}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Locations</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Voyages</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Partenaires</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Articles</a>

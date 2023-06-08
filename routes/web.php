@@ -15,7 +15,6 @@ use App\Http\Livewire\Admin\Homepage;
 use App\Http\Livewire\Admin\House\Contacts;
 use App\Http\Livewire\Admin\House\ContactsBanned;
 use App\Http\Livewire\Admin\House\House;
-use App\Http\Livewire\Admin\House\HousePackages;
 use App\Http\Livewire\Admin\House\HousePromos;
 use App\Http\Livewire\Admin\House\Houses;
 use App\Http\Livewire\Admin\House\Highlights;
@@ -68,7 +67,7 @@ Route::get('/logo-image', [LogoController::class,'index'])->name('logo');
 
 Route::get('/vacances', LivewireHolidays::class)->name('holidays');
 Route::get('/chercher/location-vacances', LivewireHouses::class)->name('houses');
-Route::get('/chercher/location-vacances/{search}', LivewireHouses::class)->where('search','.*')->name('houses')->middleware(SearchMiddelware::class);
+Route::get('/chercher/location-vacances/{search}', LivewireHouses::class)->where('search','.*')->name('searchHouses')->middleware(SearchMiddelware::class);
 /*Route::get('/chercher/location-vacances/{house_type}/{search}', function (string $houseType,string $search) {
     return 'User '.$houseType;
 })->whereIn('house_type',HouseTypeTranslation::select('slug')->get()->pluck('slug'))->where('search','.*');*/
