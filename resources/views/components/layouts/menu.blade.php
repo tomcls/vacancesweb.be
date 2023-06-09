@@ -24,7 +24,7 @@
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Publier une location</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="{{route('auth.login')}}" class="text-sm font-semibold leading-6 {{$textColor}}">Connexion <span class="text-pink-500"  aria-hidden="true">&rarr;</span></a>
+        <a href="{{(auth()) ? route('profile') : route('auth.login')}}" class="text-sm font-semibold leading-6 text-left {{$textColor}}">{!!(auth()) ? auth()->user()->firstname."<br><small>"."Mon profile</small>": 'Connexion'!!} <span class="text-pink-500"  aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->

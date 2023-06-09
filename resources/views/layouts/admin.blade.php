@@ -73,7 +73,7 @@
             <div class="flex flex-col w-64 border-r border-gray-200 bg-gray-900">
                 <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200  px-6">
                     <div class="flex items-center flex-shrink-0 px-4">
-                        <img class="h-11 w-auto" src="/logo/logo-fr-white.svg" alt="Surge Logo">
+                        <a href="{{route('home')}}"><img class="h-11 w-auto" src="/logo/logo-fr-white.svg" alt="Vacancesweb admin"></a> 
                     </div>
                     <!-- Sidebar component, swap this element with another sidebar if you like -->
                     <nav class="flex flex-1 flex-col">
