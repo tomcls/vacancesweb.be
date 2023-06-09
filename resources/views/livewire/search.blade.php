@@ -176,8 +176,8 @@
                                 </div>
                               </div>
                               <div class="flex flex-row space-x-2 justify-end">
-                                <x-button.secondary class="border-pink-500 px-4" >J'efface</x-button.primary>
-                                <x-button.primary >Je valide</x-button.primary>
+                                <x-button.secondary class="border-pink-500 px-4" @click="selectedDays=[];day_selected=null;month_selected;year_selected=null;" >J'efface</x-button.primary>
+                                <x-button.primary  @click="validate()">Je valide</x-button.primary>
                               </div>
                             </div>
                           </div>
@@ -252,6 +252,9 @@
       no_of_days_of_next_month: [],
       blankdays_of_next_month: [],
       days: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'],
+      validate() {
+        Livewire.emit('setPeriod',this.selectedDays);
+      },
       initDate() {
         let today = new Date();
         this.month = today.getMonth();
