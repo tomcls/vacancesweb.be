@@ -21,7 +21,7 @@ class Search extends Component
     public $dateFrom = null;
     public $dateTo = null;
     public $numberPeople = null;
-    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem'];
+    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem','setPeriod' => 'setPeriod'];
 
     public function mount($searchByUri = null)
     {
@@ -84,6 +84,11 @@ class Search extends Component
     public function updatedDateTo($date)
     {
         $this->emit('dateTo', $date);
+    }
+    public function setPeriod($days) {
+        if(count($days)==0) {
+            $this->notify(['message'=>'Please select a period','type'=>'alert']);
+        }
     }
     public function render()
     {
