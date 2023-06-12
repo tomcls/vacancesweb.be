@@ -2,38 +2,65 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Country;
 use App\Models\House;
 use App\Models\Region;
-use Livewire\Component;
-use App\Models\Country;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Laravel\Octane\Facades\Octane;
-use Illuminate\Support\Facades\App;
-use App\Models\HouseTypeTranslation;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
+use Livewire\Component;
 
-class Search extends Component
+class SearchHome extends Component
 {
-    public $lang;
+
     public $locationSearch;
     public $locations = [];
-    public $types = [];
     public $dateFrom = null;
     public $dateTo = null;
     public $numberPeople = null;
-    public $period = 'week';
-    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem', 'setPeriod' => 'setPeriod', 'cleanPeriod' => 'cleanPeriod'];
+    public $period = 'weekend';
 
-    protected $queryString = ['dateFrom', 'dateTo', 'numberPeople'];
-
-    public function mount($searchByUri = null)
+    public $houseType = 'rentals';
+    public $houseTypeTitles = [
+        'rentals' => 'Location de vacances',
+        'circuit' => 'Circuits',
+        'cruise' => 'Croisières',
+        'club' => 'Club',
+        'citytrip' => 'Séjours',
+    ];
+    protected $listeners = [
+        'setHouseType' => 'setHouseType',
+        'setPeriod' => 'setPeriod',
+        'cleanPeriod' => 'cleanPeriod'
+    ];
+    public function setHouseType($type)
     {
-        $this->locationSearch = $searchByUri['region']->name ?? $searchByUri['country']->name ?? null;
-        $this->lang = App::currentLocale();
-        $this->types = Cache::remember('house_types', 10000, function () {
-            return HouseTypeTranslation::whereLang(App::currentLocale())->orderBy('name', 'asc')->get();
-        });
+        $this->houseType = $type;
+    }
+    public function search()
+    {
+    }
+    public function updatedNumberPeople($people)
+    {
+        $this->emit('numberPeople', $people);
+    }
+    public function setPeriod($d)
+    {
+        if (count($d['days']) == 0) {
+            $this->notify(['message' => 'Please select a period', 'type' => 'alert']);
+        } else {
+            $this->dateFrom = Carbon::parse($d['days'][0])->format('d-m-Y');
+            $this->dateTo = Carbon::parse($d['days'][count($d['days']) - 1])->format('d-m-Y');
+            $this->emit('dateFrom', $this->dateFrom);
+            $this->emit('dateTo', $this->dateTo);
+        }
+        $this->period = $d['period'];
+    }
+    public function cleanPeriod()
+    {
+        $this->dateFrom = null;
+        $this->dateTo = null;
     }
     public function locationsResult()
     {
@@ -75,31 +102,9 @@ class Search extends Component
     public function setAutoCompleteItem($type, $text, $id)
     {
         $this->locationSearch = $text;
-        $this->emit('setLocationId', $id);
-    }
-    public function updatedNumberPeople($people)
-    {
-        $this->emit('numberPeople', $people);
-    }
-    public function setPeriod($d)
-    {
-        if (count($d['days']) == 0) {
-            $this->notify(['message' => 'Please select a period', 'type' => 'alert']);
-        } else {
-            $this->dateFrom = Carbon::parse($d['days'][0])->format('d-m-Y');
-            $this->dateTo = Carbon::parse($d['days'][count($d['days']) - 1])->format('d-m-Y');
-            $this->emit('dateFrom', $this->dateFrom);
-            $this->emit('dateTo', $this->dateTo);
-        }
-        $this->period = $d['period']??'weekend';
-    }
-    public function cleanPeriod()
-    {
-        $this->dateFrom = null;
-        $this->dateTo = null;
     }
     public function render()
     {
-        return view('livewire.search');
+        return view('livewire.search-home');
     }
 }

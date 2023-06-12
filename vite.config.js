@@ -18,6 +18,7 @@ export default defineConfig({
                 'resources/js/pickaday.js',
                 'resources/js/app.js',
                 'resources/scss/app.scss',
+                'resources/js/calendar.js',
             ],
             refresh: true,
         }),

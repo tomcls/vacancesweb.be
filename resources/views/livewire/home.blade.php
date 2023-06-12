@@ -1,30 +1,6 @@
 <div class="bg-white"
     x-data="{
-        sidebarOpen: false,
-        hasClass: function(element, className) {
-          return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
-        },
-        loadImages: function() {
-        
-          var observer = new IntersectionObserver(
-              (entries, observer) => {
-                  entries.forEach(entry => {
-                      if (entry.intersectionRatio > 0.0) {
-                          img = entry.target;
-                          
-                          if (!this.hasClass(img,'loaded') && !this.hasClass(img,'logo') ) {
-                                img.setAttribute('src', img.dataset.src);
-                                img.className += ' loaded';
-                          }
-                      }
-                  });
-              },
-              {}
-          )
-          for (let img of document.getElementsByTagName('img')) {
-              observer.observe(img);
-          }
-      }
+        sidebarOpen: false
     }"
     x-init="loadImages()"
     @keydown.window.escape="sidebarOpen = false" >
@@ -35,69 +11,9 @@
       {{-- <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
         <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
       </div> --}}
-      <div class="mx-auto max-w-7xl pt-20 pb-16 sm:py-48 lg:py-56 ">
-        <div class="absolute h-1/3  z-10 mt-20 sm:relative sm:mt-0  sm:mb-16 sm:flex sm:justify-start bg-white rounded-lg px-4 py-3 shadow-2xl inset-0  max-w-5xl mx-2 sm:mx-auto ">
-          <div class="flex flex-col   mx-auto">
-            <x-input.group  for="searchHoliday" label="">
-              <x-input.location 
-                  wire:model.debounce.450ms="locationSearch" 
-                  wire:keyup.debounce.450ms="locationsResult"
-                  id="searchHoliday" 
-                  name="searchHoliday" 
-                  wireModel="locationId" 
-                  :rows="$locations" 
-                  
-                  placeholder="Où partez-vous ? Référence ?" >
-                  <x-slot:icon>
-                    <x-icon.map class="flex-shrink-0 text-sky-600"/>
-                  </x-slot:icon>
-              </x-input.location>
-            </x-input.group>
-            <div class="pt-2 flex flex-col sm:flex-row sm:space-x-2 relative rounded-full px-0  py-1 text-sm leading-6 text-gray-600 ring-1 ring-white/10 hover:ring-white/20">
-              
-              <x-input.group  for="searchTypes" label="Types de séjour"  class="mt-2 sm:mt-0">
-                  <x-input.search-types id="searchTypes" />
-              </x-input.group>
-              <div class="flex flex-row space-x-1 sm:space-x-2">
-                  <x-input.group  for="searchFrom" label="Date d'arrivée" class="mt-2 sm:mt-0">
-                    <div class="w-44 sm:w-48">
-                        <div class="relative mt-2 rounded-md shadow-sm">
-                          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <x-icon.calendar class="text-blue-500"/>
-                          </div>
-                          <input type="text" name="searchFrom" id="searchFrom" class="block w-40 sm:w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6" placeholder="Date d'arrivée">
-                        </div>
-                      </div>
-                </x-input.group>
-                <x-input.group  for="searchTo" label="Date de départ" class="mt-2 sm:mt-0">
-                    <div  class="w-44 sm:w-48">
-                        <div class="relative mt-2 rounded-md shadow-sm">
-                          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                            <x-icon.calendar class="text-blue-500" />
-                          </div>
-                          <input type="text" name="searchTo" id="searchTo" class="block w-40 sm:w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6" placeholder="Date de départ">
-                        </div>
-                      </div>
-                </x-input.group>
-              </div>
-              <x-input.group  for="searchPeople" label="Nombre de vacanciers" class="mt-2 sm:mt-0">
-                  <div  class="sm:w-48">
-                      <div class="relative mt-2 rounded-md shadow-sm">
-                        <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                          <x-icon.user class="text-blue-500" />
-                        </div>
-                        <input type="text" name="searchPeople" id="searchPeople" class="block w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6" placeholder="Nombre de vacanciers">
-                      </div>
-                    </div>
-              </x-input.group>
-              <button type="button" class="sm:inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-3 my-2 sm:mt-7  text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
-                Rechercher
-                <x-icon.right />
-              </button>
-
-            </div>
-          </div>
-
+      <div class="mx-auto max-w-7xl pt-20 pb-5 sm:pb-16  sm:py-48 lg:py-56 ">
+        <div class="absolute h-1/3  z-10 mt-20 sm:relative sm:mt-0  sm:mb-16 sm:flex sm:justify-start bg-white rounded-lg px-4 py-3 shadow-2xl inset-0  max-w-4xl mx-2 sm:mx-auto ">
+          @livewire('search-home',[],key('searchbar'))
         </div>
         <div class="hidden pl-2 pt-2 sm:flex flex-row bg-white  relative w-40 text-center font-bold py-1 rounded-t" >
             <x-icon.guide class=" text-pink-500"/>
@@ -679,5 +595,8 @@
             </div>
           </div>
       </footer>
-  </div>
   
+      @push('scripts')
+        @vite(['resources/js/calendar.js'])
+      @endpush
+  </div>

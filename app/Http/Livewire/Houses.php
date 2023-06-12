@@ -63,6 +63,9 @@ class Houses extends Component
         $this->locationId = $search['region']->region_id ?? null;
         $this->countryId = $search['country']->country_id ?? null;
         $this->searchByUri = $search ?? null;
+        $this->dateFrom = $request['dateFrom']??null;
+        $this->dateTo = $request['dateTo']??null;
+        $this->numberPeople = $request['numberPeople']??null;
     }
 
     public function getRowsQueryProperty()
@@ -126,7 +129,7 @@ class Houses extends Component
             ->whereNotNull('house_publications.startdate')
             ->whereNotNull('house_publications.enddate')
             ->groupBy('houses.id');
-            logger($query->toSql());
+           // logger($query->toSql());
         return $this->applySorting($query);
     }
 

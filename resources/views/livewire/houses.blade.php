@@ -1,29 +1,6 @@
 <div x-data="{
         open: false,
-        sidebarOpen:false,
-        hasClass: function(element, className) {
-          return (' ' + element.className + ' ').indexOf(' ' + className+ ' ') > -1;
-        },
-        loadImages: function() {
-          var observer = new IntersectionObserver(
-              (entries, observer) => {
-                  entries.forEach(entry => {
-                      if (entry.intersectionRatio > 0.0) {
-                          img = entry.target;
-                          
-                          if (!this.hasClass(img,'loaded') && !this.hasClass(img,'logo') ) {
-                                img.setAttribute('src', img.dataset.src);
-                                img.className += ' loaded';
-                          }
-                      }
-                  });
-              },
-              {}
-          )
-          for (let img of document.getElementsByTagName('img')) {
-              observer.observe(img);
-          }
-        }
+        sidebarOpen:false
       }"
       x-init="
         loadImages();
@@ -120,5 +97,5 @@
     @vite(['node_modules/mapbox-gl/dist/mapbox-gl.css','node_modules/pikaday/css/pikaday.css'])
   @endpush
   @push('scripts')
-    @vite(['resources/js/mapbox-draw.js','resources/js/mapbox.js','resources/js/pickaday.js','resources/js/moment.js'])
+    @vite(['resources/js/mapbox-draw.js','resources/js/mapbox.js','resources/js/pickaday.js','resources/js/moment.js','resources/js/calendar.js'])
   @endpush

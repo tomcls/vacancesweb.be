@@ -3,6 +3,7 @@
     'wireModel' => null,
     'rows' => null,
     'icon' => null,
+    'noCheckForMobile' => null,
 ])
 <div>
 <div x-data="{ isOpen: false }" >
@@ -16,8 +17,7 @@
             placeholder="Find a location">
       <input type="hidden" wire:model="{{$wireModel}}" />
       @if($rows)
-      <!--origin-top-right absolute left-0 sm:right-0 bottom-11 sm:-bottom-32   mt-2 -mr-1  rounded-md shadow-lg z-20-->
-      <div :class="{'bottom-11': window.mobileCheck() === true}" class="absolute left-0 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 ">
+      <div :class="{'bottom-11': mobileCheck({{$noCheckForMobile}}) === true}" class="absolute left-0 z-20 mt-3 w-screen max-w-md transform px-2 sm:px-0 ">
         <div x-show="isOpen"
             @click.outside="isOpen = false"
             class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
@@ -26,8 +26,7 @@
                 <div wire:click="$emit('selectAutoCompleteItem','{{$wireModel}}','{{'#'.$row['id'].' '.$row['title']}}','{{$row['id']}}','{{$row['type']}}')" 
                 x-on:click.prevent="isOpen = false;" 
                 class="relative grid gap-6 bg-white pl-2 py-8 sm:gap-8  sm:py-4" >
-                    <a href="#" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-50">
-                    <!-- Heroicon name: outline/lifebuoy -->
+                    <a href="#" class="-m-3 flex items-start rounded-lg p-3 hover:bg-gray-200">
                         @if (isset($row['image']))
                             <img src="/houses/images/{{$row['id']}}/small_{{$row['image']}}" class="h-12 w-12 rounded" />
                         @else
