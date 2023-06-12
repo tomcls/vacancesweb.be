@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Octane\Facades\Octane;
 use Illuminate\Support\Facades\App;
 use App\Models\HouseTypeTranslation;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class Search extends Component
@@ -21,7 +22,7 @@ class Search extends Component
     public $dateFrom = null;
     public $dateTo = null;
     public $numberPeople = null;
-    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem','setPeriod' => 'setPeriod'];
+    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem','setPeriod' => 'setPeriod','cleanPeriod'=>'cleanPeriod'];
 
     public function mount($searchByUri = null)
     {
@@ -73,22 +74,23 @@ class Search extends Component
         $this->locationSearch = $text;
         $this->emit('setLocationId', $id);
     }
-    public function updatedDateFrom($date)
-    {
-        $this->emit('dateFrom', $date);
-    }
     public function updatedNumberPeople($people)
     {
         $this->emit('numberPeople', $people);
     }
-    public function updatedDateTo($date)
-    {
-        $this->emit('dateTo', $date);
-    }
     public function setPeriod($days) {
         if(count($days)==0) {
             $this->notify(['message'=>'Please select a period','type'=>'alert']);
+        } else {
+            $this->dateFrom = Carbon::parse($days[0])->format('d-m-Y');
+            $this->dateTo = Carbon::parse($days[count($days)-1])->format('d-m-Y');
+            $this->emit('dateFrom', $this->dateFrom );
+            $this->emit('dateTo', $this->dateTo);
         }
+    }
+    public function cleanPeriod() {
+        $this->dateFrom = null;
+        $this->dateTo = null;
     }
     public function render()
     {

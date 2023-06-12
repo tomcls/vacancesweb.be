@@ -12,7 +12,7 @@ class House extends Model
 {
     use HasFactory;
     public $with = ['houseType','cover'];
-
+    protected $casts = ['dateFrom' => 'datetime'];
     public function cover () {
         return $this->hasOne(HouseImage::class)->orderBy('sort','asc');
     }

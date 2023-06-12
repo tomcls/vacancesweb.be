@@ -16,7 +16,8 @@
             placeholder="Find a location">
       <input type="hidden" wire:model="{{$wireModel}}" />
       @if($rows)
-      <div class="absolute left-0 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0">
+      <!--origin-top-right absolute left-0 sm:right-0 bottom-11 sm:-bottom-32   mt-2 -mr-1  rounded-md shadow-lg z-20-->
+      <div :class="{'bottom-11': window.mobileCheck() === true}" class="absolute left-0 z-10 mt-3 w-screen max-w-md transform px-2 sm:px-0 ">
         <div x-show="isOpen"
             @click.outside="isOpen = false"
             class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
