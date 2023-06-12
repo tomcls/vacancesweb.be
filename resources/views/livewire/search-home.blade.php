@@ -195,7 +195,7 @@
               </div>
             </div>
       </x-input.group>
-      <button type="button" class="sm:inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-3 my-2 sm:mt-7  text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+      <button type="button" wire:click="search" class="sm:inline-flex items-center gap-x-2 rounded-md bg-blue-600 px-3.5 py-3 my-2 sm:mt-7  text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
         Rechercher
         <x-icon.right />
       </button>

@@ -4,7 +4,10 @@ namespace App\Http\Livewire;
 
 use App\Models\Country;
 use App\Models\House;
+use App\Models\HouseType;
+use App\Models\HouseTypeTranslation;
 use App\Models\Region;
+use App\Models\RegionTranslation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
@@ -13,15 +16,15 @@ use Livewire\Component;
 
 class SearchHome extends Component
 {
-
     public $locationSearch;
     public $locations = [];
     public $dateFrom = null;
     public $dateTo = null;
     public $numberPeople = null;
     public $period = 'weekend';
-
+    public $locationId = null;
     public $houseType = 'rentals';
+
     public $houseTypeTitles = [
         'rentals' => 'Location de vacances',
         'circuit' => 'Circuits',
@@ -32,7 +35,8 @@ class SearchHome extends Component
     protected $listeners = [
         'setHouseType' => 'setHouseType',
         'setPeriod' => 'setPeriod',
-        'cleanPeriod' => 'cleanPeriod'
+        'cleanPeriod' => 'cleanPeriod',
+        'selectAutoCompleteItem' => 'setAutoCompleteItem',
     ];
     public function setHouseType($type)
     {
@@ -40,6 +44,29 @@ class SearchHome extends Component
     }
     public function search()
     {
+        logger($this->numberPeople);
+        logger($this->dateFrom);
+        logger($this->dateTo);
+        logger($this->houseType);
+        logger($this->locationId);
+        logger($this->period);
+        $houseType = null;
+        $uri = '/chercher/location-vacances/';
+        $slug = null;
+        $region = RegionTranslation::whereRegionId($this->locationId)->whereLang(App::currentLocale())->first();
+        if($this->houseType != 'rentals') {
+            $houseType = HouseType::whereCode($this->houseType)->first();
+            $houseTypeTranslation = HouseTypeTranslation::whereHouseTypeId($houseType->id)->whereLang(App::currentLocale())->first();
+            $uri = '/vacances/';
+            $slug = $houseTypeTranslation->slug;
+        }
+        if($region) {
+            $path = $region->path;
+            $url = env('APP_URL').$uri .$slug.$path;
+            $this->redirect($url);
+        } else {
+            $this->notify(['message' => 'Please select a location', 'type' => 'alert']);
+        }
     }
     public function updatedNumberPeople($people)
     {
@@ -57,11 +84,13 @@ class SearchHome extends Component
         }
         $this->period = $d['period'];
     }
+
     public function cleanPeriod()
     {
         $this->dateFrom = null;
         $this->dateTo = null;
     }
+
     public function locationsResult()
     {
         if (!empty($this->locationSearch)) {
@@ -99,10 +128,15 @@ class SearchHome extends Component
             $this->locations = array_merge($regionsResult, $countriesResult, $housesResult);
         }
     }
+
     public function setAutoCompleteItem($type, $text, $id)
     {
         $this->locationSearch = $text;
+        $this->locationId = $id;
+        logger($text);
+        logger($id);
     }
+
     public function render()
     {
         return view('livewire.search-home');
