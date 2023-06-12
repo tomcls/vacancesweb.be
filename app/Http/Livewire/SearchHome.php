@@ -44,25 +44,35 @@ class SearchHome extends Component
     }
     public function search()
     {
-        logger($this->numberPeople);
-        logger($this->dateFrom);
-        logger($this->dateTo);
-        logger($this->houseType);
-        logger($this->locationId);
-        logger($this->period);
         $houseType = null;
-        $uri = '/chercher/location-vacances/';
+        $uri = '/chercher/location-vacances';
         $slug = null;
         $region = RegionTranslation::whereRegionId($this->locationId)->whereLang(App::currentLocale())->first();
         if($this->houseType != 'rentals') {
             $houseType = HouseType::whereCode($this->houseType)->first();
             $houseTypeTranslation = HouseTypeTranslation::whereHouseTypeId($houseType->id)->whereLang(App::currentLocale())->first();
-            $uri = '/vacances/';
+            $uri = '/vacances';
             $slug = $houseTypeTranslation->slug;
         }
         if($region) {
             $path = $region->path;
-            $url = env('APP_URL').$uri .$slug.$path;
+            $queryString = [];
+            if($this->dateFrom){
+                $queryString['dateFrom']=$this->dateFrom;
+            }
+            if($this->dateTo){
+                $queryString['dateTo']=$this->dateTo;
+            }
+            if($this->numberPeople){
+                $queryString['numberPeople']=$this->numberPeople;
+            }
+            if($this->period){
+                $queryString['period']=$this->period;
+            }
+            if(count($queryString)>0) {
+                $q="?".http_build_query($queryString);
+            }
+            $url = env('APP_URL').$uri .$slug.$path.$q;
             $this->redirect($url);
         } else {
             $this->notify(['message' => 'Please select a location', 'type' => 'alert']);
@@ -133,8 +143,6 @@ class SearchHome extends Component
     {
         $this->locationSearch = $text;
         $this->locationId = $id;
-        logger($text);
-        logger($id);
     }
 
     public function render()

@@ -185,13 +185,13 @@
             </div>
           </div>
       </div>
-      <x-input.group  for="searchPeople" label="" class="mt-0 sm:mt-5">
+      <x-input.group  for="" label="" class="mt-0 sm:mt-5">
           <div  class="sm:w-48">
               <div class="relative mt-2 rounded-md shadow-sm">
                 <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                   <x-icon.user class="text-blue-500" />
                 </div>
-                <input type="text" name="searchPeople" id="searchPeople" class="block w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6" placeholder="Nombre de vacanciers">
+                <input type="text" wire:model.lazy="numberPeople" class="block w-full rounded-md border-0 py-2.5 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-500 sm:text-sm sm:leading-6" placeholder="Nombre de vacanciers">
               </div>
             </div>
       </x-input.group>
