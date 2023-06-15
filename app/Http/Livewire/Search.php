@@ -2,15 +2,16 @@
 
 namespace App\Http\Livewire;
 
+use Carbon\Carbon;
 use App\Models\House;
 use App\Models\Region;
 use Livewire\Component;
 use App\Models\Country;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Laravel\Octane\Facades\Octane;
 use Illuminate\Support\Facades\App;
 use App\Models\HouseTypeTranslation;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
 class Search extends Component
@@ -25,15 +26,19 @@ class Search extends Component
     public $period = 'week';
     protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem', 'setPeriod' => 'setPeriod', 'cleanPeriod' => 'cleanPeriod'];
 
-    protected $queryString = ['dateFrom', 'dateTo', 'numberPeople'];
+    protected $queryString = ['dateFrom', 'dateTo', 'numberPeople','period'];
 
-    public function mount($searchByUri = null)
+    public function mount(Request $request, $searchByUri = null)
     {
         $this->locationSearch = $searchByUri['region']->name ?? $searchByUri['country']->name ?? null;
         $this->lang = App::currentLocale();
         $this->types = Cache::remember('house_types', 10000, function () {
             return HouseTypeTranslation::whereLang(App::currentLocale())->orderBy('name', 'asc')->get();
         });
+        $this->period = $request['period']??null;
+        $this->dateFrom = $request['dateFrom']??null;
+        $this->dateTo = $request['dateTo']??null;
+        logger($this->period);
     }
     public function locationsResult()
     {

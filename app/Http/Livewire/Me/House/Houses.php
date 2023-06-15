@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Http\Livewire\Admin\House;
+namespace App\Http\Livewire\Me\House;
 
 use App\Models\House;
-use App\Models\User;
-use Livewire\Component;
 use App\Models\HouseType;
+use App\Models\User;
+use App\Traits\DataTable\WithBulkActions;
+use App\Traits\DataTable\WithCachedRows;
+use App\Traits\DataTable\WithPerPagePagination;
+use App\Traits\DataTable\WithSorting;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-use App\Traits\DataTable\WithSorting;
-use App\Traits\DataTable\WithCachedRows;
-use App\Traits\DataTable\WithBulkActions;
-use App\Traits\DataTable\WithPerPagePagination;
+use Livewire\Component;
 
 class Houses extends Component
 {
     use WithPerPagePagination, WithSorting, WithBulkActions, WithCachedRows;
 
     public $showDeleteModal = false;
-    public $showEditModal = false;
-    public $showFilters = false;
+    public $houseTypes = null;
+    public User $user;
 
     public $filters = [
         'id' => null,
@@ -36,32 +36,12 @@ class Houses extends Component
         'date-created-max' => null,
     ];
 
-    protected $queryString = ['sorts'];
-
-    protected $listeners = ['selectAutoCompleteItem' => 'setAutoCompleteItem'];
-
-    public $houseTypes = null;
-
-    public $users = null;
-    public $userSearch = null;
-
     public function mount()
     {
+        $this->user = auth()->user();
         $this->houseTypes = HouseType::all();
         $this->filters['lang'] = App::currentLocale();
-    }
-    public function updatedFilters()
-    {
-        $this->resetPage();
-    }
-
-    public function exportSelected()
-    {
-        if ($this->selectedRowsQuery->count()) {
-            return response()->streamDownload(function () {
-                echo $this->selectedRowsQuery->toCsv();
-            }, 'houses.csv');
-        }
+        $this->filters['user-id'] = $this->user->id;
     }
 
     public function deleteSelected()
@@ -74,24 +54,10 @@ class Houses extends Component
 
         $this->notify(['message' => 'You\'ve deleted ' . $deleteCount . ' houses', 'type' => 'success']);
     }
-
-    public function toggleShowFilters()
-    {
-        $this->useCachedRows();
-
-        $this->showFilters = !$this->showFilters;
-    }
-
     public function new()
     {
-        return redirect()->to('/admin/house/house');
+        return redirect()->to('/me/house/house');
     }
-
-    public function resetFilters()
-    {
-        $this->reset('filters');
-    }
-
     public function getRowsQueryProperty()
     {
         $query = House::query()
@@ -152,37 +118,11 @@ class Houses extends Component
             return $this->applyPagination($this->rowsQuery);
         });*/
     }
-
-    // Fetch records
-    public function usersResult()
-    {
-        if (!empty($this->userSearch)) {
-            $query = User::query()->select(DB::raw("id, CONCAT(firstname,' ', lastname) AS title, email as subtitle"))
-                ->when($this->userSearch, fn ($query, $name) => $query
-                    ->where('firstname', 'like', '%' . $name . '%')
-                    ->orWhere('lastname', 'like', '%' . $name . '%')
-                    ->orWhere('email', 'like', '%' . $name . '%'))->limit(5);
-            $this->users = $query->get();
-        }
-    }
-    public function setAutoCompleteItem($type, $text, $id)
-    {
-        switch ($type) {
-            case 'filters.user-id':
-                $this->userSearch = $text;
-                $this->filters['user-id'] = $id;
-                $this->users = null;
-                break;
-
-            default:
-                # code...
-                break;
-        }
-    }
+    
     public function render()
     {
-        return view('livewire.admin.house.houses', [
+        return view('livewire.me.house.houses', [
             'houses' => $this->rows,
-        ])->layout('layouts.admin');
+        ])->layout('layouts.me');
     }
 }

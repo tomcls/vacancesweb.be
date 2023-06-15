@@ -51,7 +51,7 @@
                       x-transition:leave-end="opacity-0 translate-y-1" 
                       class="absolute ml-0 -left-2 sm:left-1/2 mt-5 flex  w-screen max-w-max  sm:-translate-x-1/2 px-1 sm:px-4 z-10 bottom-11 sm:-bottom-100 mr-5">
                       <div class="w-screen max-w-2xl flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg ring-1 ring-gray-900/5">
-                          <div x-data="calendar()" x-init="[initDate(), getNoOfDays(),getNoOfDaysOfNextMonth()]" x-cloak class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                          <div x-data="calendar()" x-init="[initDate(), getNoOfDays(),getNoOfDaysOfNextMonth(),period='{{$period}}']" x-cloak class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <div class="shadow absolute right-0 -top-4 w-10 h-10 rounded-full bg-sky-200 hover:bg-sky-300 text-white hover:text-gray-800 inline-flex items-center justify-center cursor-pointer"
                               x-on:click="open = false">
                               <svg class="fill-current w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

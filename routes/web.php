@@ -39,7 +39,14 @@ use App\Http\Livewire\Home;
 use App\Http\Livewire\Houses as LivewireHouses;
 use App\Http\Livewire\Profile;
 use App\Http\Middleware\SearchMiddelware;
-use App\Models\HouseTypeTranslation;
+
+use App\Http\Livewire\Me\House\Houses as MeHouses;
+use App\Http\Livewire\Me\House\House as MeHouse;
+use App\Http\Livewire\Me\House\HouseDetail as MeHousDetail;
+use App\Http\Livewire\Me\Invoices as MeInvoices;
+use App\Http\Livewire\Me\Messages as MeMessages;
+use App\Http\Livewire\Me\Dashboard as MeDashboard;
+use App\Http\Livewire\Me\Profile as MeProfile;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,4 +125,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/partner/boxes', Boxes::class)->name('admin.partner.boxes');
 
     Route::get('/admin/invoice/{id?}', [InvoiceController::class,'download'])->name('admin.invoice');
+
+    Route::get('/me/house/{id?}', MeHouse::class)->name('me.house');
+    Route::get('/me/profile', MeProfile::class)->name('me.profile');
+    Route::get('/me/dashboard', MeDashboard::class)->name('me.dashboard');
+    Route::get('/me/houses', MeHouses::class)->name('me.houses');
+    Route::get('/me/invoices', MeInvoices::class)->name('me.invoices');
+    Route::get('/me/messages', MeMessages::class)->name('me.messages');
 });
