@@ -71,7 +71,6 @@ class HousePromos extends Component
         collect(config('app.langs'))->map(function ($lang) {
             $this->titles[$lang] = $this->makeBlankPromoTranslation($lang);
         });
-        logger($this->titles);
     }
 
     public function deleteSelected()
@@ -251,7 +250,6 @@ class HousePromos extends Component
                     ->orWhere('lastname', 'like', '%' . $name . '%')
                     ->orWhere('email', 'like', '%' . $name . '%'))->limit(5);
             $this->users = $query->get();
-            logger($this->users);
         }
     }
     public function setAutoCompleteItem($type, $text, $id, $subtitle)

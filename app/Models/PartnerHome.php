@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Storage;
 
 class PartnerHome extends Model
@@ -20,9 +22,15 @@ class PartnerHome extends Model
     {
         return $this->belongsTo(Partner::class, 'partner_id');
     }
-
-    public function url($size='large')
+    public function scopeHero(Builder $query, $slug, $lang = 'fr'): void
     {
-        return Storage::disk('partners')->url($this->partner_id.'/'.$size.'_'.$this->image);
+        $query->leftJoin('partners', 'partners.id', '=', DB::raw('partner_homes.partner_id '))
+            ->where('partners.code', '=', $slug)
+            ->where('partner_homes.lang', '=', $lang)
+            ->groupBy('partner_homes.id');
+    }
+    public function url($size = 'large')
+    {
+        return Storage::disk('partners')->url($this->partner_id . '/' . $size . '_' . $this->image);
     }
 }

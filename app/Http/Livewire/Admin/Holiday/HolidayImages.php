@@ -34,7 +34,6 @@ class HolidayImages extends Component
     public function mount($holidayId)
     {
         $this->holidayId = $holidayId;
-        logger('mount');
     }
 
     public function getImagesProperty()
@@ -138,7 +137,6 @@ class HolidayImages extends Component
 
     public function render()
     {
-        logger('render');
         return view('livewire.admin.holiday.holiday-images', [
             'images' => $this->images,
         ]);

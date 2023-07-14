@@ -163,13 +163,10 @@ class HouseTransactions extends Component
         if ($this->editing->invoice_id && $this->invoice->id == $this->editing->invoice_id) {
             $this->invoice->id = $this->editing->invoice_id;
             $this->invoice->update();
-            logger('Invoice  well upodated');
         } elseif(!$this->editing->invoice_id) {
             $this->notify(['message' => 'Invoice  well created', 'type' => 'success']);
-            logger('Invoice  well created');
             $this->invoice->save();
         }
-        logger($this->invoice);
         if($this->editing->id) {
             $transaction = InvoiceTransaction::find($this->editing->id);
             $transaction->invoice_id = $this->editing->invoice_id;

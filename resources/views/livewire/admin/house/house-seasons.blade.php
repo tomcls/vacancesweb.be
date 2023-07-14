@@ -121,27 +121,27 @@
 
             <x-slot name="content">
                 <x-input.group for="startdate_for_editing" label="Start date" :error="$errors->first('editing.startdate_for_editing')">
-                    <x-input.date wire:model="editing.startdate_for_editing" id="startdate_for_editing" placeholder="Start date" />
+                    <x-input.date wire:model.lazy="editing.startdate_for_editing" id="startdate_for_editing" placeholder="Start date" />
                 </x-input.group>
 
                 <x-input.group for="enddate_for_editing" label="End date" :error="$errors->first('editing.enddate_for_editing')">
-                    <x-input.date wire:model="editing.enddate_for_editing" id="enddate_for_editing" placeholder="End date" />
+                    <x-input.date wire:model.lazy="editing.enddate_for_editing" id="enddate_for_editing" placeholder="End date" />
                 </x-input.group>
 
                 <x-input.group for="day_price" label="Day price" :error="$errors->first('editing.day_price')">
-                    <x-input.text wire:model="editing.day_price" id="day_price" placeholder="Day price" />
+                    <x-input.text wire:model.lazy="editing.day_price" id="day_price" placeholder="Day price" />
                 </x-input.group>
 
                 <x-input.group for="week_price" label="Week price" :error="$errors->first('editing.week_price')">
-                    <x-input.text wire:model="editing.week_price" id="week_price" placeholder="Week price" />
+                    <x-input.text wire:model.lazy="editing.week_price" id="week_price" placeholder="Week price" />
                 </x-input.group>
 
                 <x-input.group for="weekend_price" label="Weekend price" :error="$errors->first('editing.weekend_price')">
-                    <x-input.text wire:model="editing.weekend_price" id="weekend_price" placeholder="Weekend price" />
+                    <x-input.text wire:model.lazy="editing.weekend_price" id="weekend_price" placeholder="Weekend price" />
                 </x-input.group>
 
                 <x-input.group for="min_nights" label="Min nights" :error="$errors->first('editing.min_nights')">
-                    <x-input.text wire:model="editing.min_nights" id="min_nights" placeholder="Min nights"  />
+                    <x-input.text wire:model.lazy="editing.min_nights" id="min_nights" placeholder="Min nights"  />
                 </x-input.group>
             </x-slot>
 

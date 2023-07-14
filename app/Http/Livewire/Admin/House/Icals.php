@@ -80,7 +80,6 @@ class Icals extends Component
         $this->useCachedRows();
 
         if ($this->editing->isNot($houseIcal)) {
-            logger('zzzzz' . $houseIcal->house_id);
             $this->houseSearch = $houseIcal->house_id;
             $this->editing = $houseIcal;
         }

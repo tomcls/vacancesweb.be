@@ -38,7 +38,6 @@ class Search extends Component
         $this->period = $request['period']??null;
         $this->dateFrom = $request['dateFrom']??null;
         $this->dateTo = $request['dateTo']??null;
-        logger($this->period);
     }
     public function locationsResult()
     {

@@ -3,14 +3,13 @@
 namespace App\Http\Livewire\Admin\House;
 
 use App\Models\House;
-use App\Models\HouseIcal;
-use App\Models\HouseRegion;
 use App\Models\User;
 use Livewire\Component;
+use App\Models\HouseIcal;
 use Illuminate\Support\Carbon;
 use App\Models\HouseReservation;
-use App\Repositories\IcalRepository;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\IcalRepository;
 use App\Traits\DataTable\WithSorting;
 use App\Traits\DataTable\WithCachedRows;
 use App\Traits\DataTable\WithBulkActions;

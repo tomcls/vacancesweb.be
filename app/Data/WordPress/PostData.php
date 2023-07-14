@@ -17,7 +17,19 @@ class PostData extends Data
     public array $categories,
     public string $title,
     public string $slug,
+    #[MapInputName('date_modified')]
+    public ?string $dateUpdated,
     #[MapInputName('id')]
     public string $postId,
-  ) {}
+    public ?array $tags,
+    public ?string $lang,
+    public ?array $languages,
+    public ?string $content,
+    public $html,
+    #[MapInputName('html_strip')]
+    public ?string $htmlStrip,
+    public ?array $gallery,
+    public ?array $author,
+  ) {
+  }
 }

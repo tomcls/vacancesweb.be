@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',150);
             $table->bigInteger('house_id')->unsigned();
-            $table->tinyInteger('sort')->index();
+            $table->tinyInteger('sort')->index()->default(0);
             $table->string('origin')->nullable();
             $table->foreign('house_id')->references('id')->on('houses')->onUpdate('cascade')->onDelete('cascade');
         });

@@ -48,11 +48,11 @@
                         <a href="/profile" class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-10 w-10 rounded-full" src="/logo/logo-fr-white.svg" alt="">
+                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base leading-6 font-medium text-white">
-                                        Paul Weamer
+                                        {{ auth()->user()->firstname }}  {{ auth()->user()->lastname }}
                                     </p>
                                     <p class="text-sm leading-5 font-medium text-sky-300 group-hover:text-indigo-100 group-focus:underline transition ease-in-out duration-150">
                                         View profile
@@ -82,8 +82,8 @@
                             <ul role="list" class="-mx-2 space-y-1">
                                 <li>
                                     <a href="{{route('me.dashboard')}}" :class="{ 'text-white  bg-gray-800': current=='me.dashboard', 'text-gray-400 ': current!='me.dashboard' }"class="hover:bg-gray-800  group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-gray-400 hover:text-white">
-                                        <x-icon.start class=" h-6 w-6 text-sky-500 group-focus:text-sky-300 transition ease-in-out duration-150"/>
-                                        Homepage 
+                                        <x-icon.stats class=" h-6 w-6 text-sky-500 group-focus:text-sky-300 transition ease-in-out duration-150"/>
+                                        Dashboard 
                                     </a>
                                 </li>
                                 <li>

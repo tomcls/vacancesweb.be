@@ -45,14 +45,14 @@
                         </nav>
                     </div>
                     <div class="flex-shrink-0 flex border-t border-indigo-700 p-4">
-                        <a href="/profile" class="flex-shrink-0 group block focus:outline-none">
+                        <a href="{{route('me.profile')}}" class="flex-shrink-0 group block focus:outline-none">
                             <div class="flex items-center">
                                 <div>
-                                    <img class="inline-block h-10 w-10 rounded-full" src="/logo/logo-fr-white.svg" alt="">
+                                    <img class="inline-block h-10 w-10 rounded-full" src="{{ auth()->user()->avatarUrl() }}" alt="profile">
                                 </div>
                                 <div class="ml-3">
                                     <p class="text-base leading-6 font-medium text-white">
-                                        Paul Weamer
+                                        {{ auth()->user()->firstname }}  {{ auth()->user()->lastname }}
                                     </p>
                                     <p class="text-sm leading-5 font-medium text-sky-300 group-hover:text-indigo-100 group-focus:underline transition ease-in-out duration-150">
                                         View profile
@@ -231,7 +231,7 @@
                                             </svg>
                                         </button>
                                         <!-- Expandable link section, show/hide based on state. -->
-                                        <ul class="mt-1 px-2" id="sub-menu-geo" x-show="(current=='admin.partner.homes' || current=='admin.partner.catalogs' || current==='admin.partner.holidays' || current==='admin.partner.boxes'|| current=='admin.partner.catalogs')? tabOpen=true:tabOpen;" style="display: none" >
+                                        <ul class="mt-1 px-2" id="sub-menu-geo" x-show="(current=='admin.partner.homes' || current=='admin.partner.catalogs' || current==='admin.partner.holidays' || current==='admin.partner.boxes'|| current=='admin.partner.catalogs' || current == 'admin.partner.articles')? tabOpen=true:tabOpen;" style="display: none" >
                                             <li>
                                                 <a href="{{route('admin.partner.homes')}}" :class="{ ' text-white  bg-gray-800': current=='admin.partner.homes', 'text-gray-400 ': current!='admin.partner.homes' }" class="font-semibold hover:bg-gray-800 block rounded-md py-2  pl-9 text-sm leading-6 text-gray-400 hover:text-white ">
                                                     Heros
@@ -245,6 +245,11 @@
                                             <li>
                                                 <a href="{{route('admin.partner.holidays')}}" :class="{ ' text-white  bg-gray-800': current=='admin.partner.holidays', 'text-gray-400 ': current!='admin.partner.holidays' }" class="font-semibold hover:bg-gray-800 block rounded-md py-2  pl-9 text-sm leading-6 text-gray-400 hover:text-white">
                                                     Holidays
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{route('admin.partner.articles')}}" :class="{ ' text-white  bg-gray-800': current=='admin.partner.articles', 'text-gray-400 ': current!='admin.partner.articles' }" class="font-semibold hover:bg-gray-800 block rounded-md py-2  pl-9 text-sm leading-6 text-gray-400 hover:text-white">
+                                                    Articles
                                                 </a>
                                             </li>
                                             <li>

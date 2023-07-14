@@ -39,7 +39,6 @@ class House extends Component
     }
     public function setHouseId($houseId) {
         $this->houseId = $houseId;
-        logger('houseId='.$houseId);
     }
 
     public function render()

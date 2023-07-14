@@ -15,7 +15,7 @@ class HouseImages extends Component
 {
     use WithFileUploads;
 
-    public $total;
+    public $total=0;
     public $newImage;
     public $houseId;
 

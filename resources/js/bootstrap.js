@@ -28,7 +28,7 @@ export function loadImages() {
                 if (entry.intersectionRatio > 0.0) {
                     const img = entry.target;
                     
-                    if (!hasClass(img,'loaded') && !hasClass(img,'logo') ) {
+                    if (!hasClass(img,'loaded') && !hasClass(img,'logo') && img.dataset.src) {
                           img.setAttribute('src', img.dataset.src);
                           img.className += ' loaded';
                     }

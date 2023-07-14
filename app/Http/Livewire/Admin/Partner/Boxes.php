@@ -149,7 +149,6 @@ class Boxes extends Component
     public function save()
     {
         $h = PartnerBoxe::whereBoxType($this->editing->box_type)->whereBoxId($this->editing->box_id)->wherePartnerId($this->editing->partner_id)->first();
-        logger($h);
         if($h && $h->id) {
             return $this->notify(['message' => 'Boxe already exist', 'type' => 'alert']);
         }

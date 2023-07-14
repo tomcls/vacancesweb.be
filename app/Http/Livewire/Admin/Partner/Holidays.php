@@ -79,7 +79,6 @@ class Holidays extends Component
 
     public function getRowsQueryProperty()
     {
-        logger('getRowsQueryProperty');
         $query = PartnerHoliday::query()
         ->when($this->filters['id'], fn ($query, $id) => $query->where('id', '=', $id))
         ->when($this->filters['lang'], fn ($query, $lang) => $query->where('lang', '=', $lang))
@@ -91,7 +90,6 @@ class Holidays extends Component
 
     public function getRowsProperty()
     {
-        logger('getRowsProperty');
         return $this->applyPagination($this->rowsQuery);
     }
     public function holidaysResult()
@@ -157,7 +155,6 @@ class Holidays extends Component
 
     public function render()
     {
-        logger('render');
         return view('livewire.admin.partner.holidays', [
             'rows' => $this->rows,
         ])->layout('layouts.admin');

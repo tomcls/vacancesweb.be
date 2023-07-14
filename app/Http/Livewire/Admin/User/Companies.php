@@ -182,7 +182,6 @@ class Companies extends Component
     }
     public function setAutoCompleteItem($type,$text, $id)
     {
-        logger($type);
         switch ($type) {
             case 'editing.user_id':
                 $this->userSearch = $text;

@@ -86,9 +86,11 @@ class Homepage extends Component
                 $wordpress  = new ArticleRepository();
                 $post = $wordpress->getPostById($id);
                 $object = [
+                    'id'=> $post->postId,
                     'image' => $post->cover,
                     'title' => $post->title,
-                    'url' => 'https//www.vacancesweb.be/articles/' . $post->slug,
+                    'url' => '/article/' . $post->slug,
+                    'author' => $post->author
                 ];
                 $this->homepage[$this->lang][$this->heroItem] = $object;
                 $this->showPostModal = false;

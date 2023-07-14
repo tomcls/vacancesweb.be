@@ -58,8 +58,6 @@ class Packages extends Component
         collect(config('app.langs'))->map(function ($lang) {
             $this->titles[$lang] = $this->makeBlankPackageTranslation($lang);
         });
-        logger($this->titles);
-        
     }
 
     public function deleteSelected()

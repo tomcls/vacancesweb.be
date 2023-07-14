@@ -1,14 +1,33 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+
+use App\Http\Livewire\Holidays as LivewireHolidays;
+use App\Http\Livewire\Home;
+use App\Http\Livewire\Houses as LivewireHouses;
+
+use App\Http\Livewire\Partner\Index;
+
+use App\Http\Livewire\Auth\Register;
+use App\Http\Livewire\Auth\Login;
+
+use App\Http\Livewire\Blog\Article;
+use App\Http\Livewire\Blog\Articles;
+use App\Http\Livewire\Blog\Reportage;
+use App\Http\Livewire\Blog\Reportages;
+use App\Http\Livewire\Blog\Themas;
+
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\LogoController;
+
+use App\Http\Middleware\SearchMiddelware;
+
 use App\Http\Livewire\Admin\Geo\Countries;
 use App\Http\Livewire\Admin\Geo\Country as GeoCountry;
 use App\Http\Livewire\Admin\Geo\Region as GeoRegion;
 use App\Http\Livewire\Admin\Geo\Regions;
 use App\Http\Livewire\Admin\Holiday\Contacts as HolidayContacts;
 use App\Http\Livewire\Admin\Holiday\Holiday;
-use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\Holiday\Holidays;
 use App\Http\Livewire\Admin\Holiday\Transactions as HolidayTransactions;
 use App\Http\Livewire\Admin\Homepage;
@@ -25,6 +44,7 @@ use App\Http\Livewire\Admin\House\Packages;
 use App\Http\Livewire\Admin\House\PackageUsers;
 use App\Http\Livewire\Admin\House\Publications;
 use App\Http\Livewire\Admin\House\Seasons;
+use App\Http\Livewire\Admin\Partner\Articles as PartnerArticles;
 use App\Http\Livewire\Admin\Partner\Boxes;
 use App\Http\Livewire\Admin\Partner\Catalogs;
 use App\Http\Livewire\Admin\Partner\Holidays as PartnerHolidays;
@@ -32,21 +52,14 @@ use App\Http\Livewire\Admin\Partner\Homes;
 use App\Http\Livewire\Admin\User\Companies;
 use App\Http\Livewire\Admin\User\Newsletters;
 use App\Http\Livewire\Admin\User\Users;
-use App\Http\Livewire\Auth\Register;
-use App\Http\Livewire\Auth\Login;
-use App\Http\Livewire\Holidays as LivewireHolidays;
-use App\Http\Livewire\Home;
-use App\Http\Livewire\Houses as LivewireHouses;
-use App\Http\Livewire\Profile;
-use App\Http\Middleware\SearchMiddelware;
 
 use App\Http\Livewire\Me\House\Houses as MeHouses;
 use App\Http\Livewire\Me\House\House as MeHouse;
-use App\Http\Livewire\Me\House\HouseDetail as MeHousDetail;
 use App\Http\Livewire\Me\Invoices as MeInvoices;
 use App\Http\Livewire\Me\Messages as MeMessages;
 use App\Http\Livewire\Me\Dashboard as MeDashboard;
 use App\Http\Livewire\Me\Profile as MeProfile;
+use App\Http\Livewire\Partner\Holidays as LivewirePartnerHolidays;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,9 +85,20 @@ Route::get('/', Home::class)->name('home');
 Route::get('/index', Home::class)->name('home');
 Route::get('/logo-image', [LogoController::class,'index'])->name('logo');
 
+Route::get('/partner/{slug}/{type}', LivewirePartnerHolidays::class)->name('partnerHolidays');
+Route::get('/partner/{slug}', Index::class)->name('partner');
+
+Route::get('/liste-des-themes/{slug}', Themas::class)->name('themas');
+Route::get('/liste-des-articles', Articles::class)->name('articles');
+Route::get('/liste-de-reportages', Reportages::class)->name('reportages');
+Route::get('/article/{slug}', Article::class)->name('article');
+Route::get('/reportage/{slug}', Reportage::class)->name('reportage');
+
 Route::get('/vacances', LivewireHolidays::class)->name('holidays');
+
 Route::get('/chercher/location-vacances', LivewireHouses::class)->name('houses');
 Route::get('/chercher/location-vacances/{search}', LivewireHouses::class)->where('search','.*')->name('searchHouses')->middleware(SearchMiddelware::class);
+
 /*Route::get('/chercher/location-vacances/{house_type}/{search}', function (string $houseType,string $search) {
     return 'User '.$houseType;
 })->whereIn('house_type',HouseTypeTranslation::select('slug')->get()->pluck('slug'))->where('search','.*');*/
@@ -87,7 +111,6 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', Profile::class)->name('profile');
 
     Route::get('/admin/homepage', Homepage::class)->name('admin.homepage');
     Route::get('/admin/user/users', Users::class)->name('admin.users');
@@ -123,6 +146,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/partner/catalogs', Catalogs::class)->name('admin.partner.catalogs');
     Route::get('/admin/partner/holidays', PartnerHolidays::class)->name('admin.partner.holidays');
     Route::get('/admin/partner/boxes', Boxes::class)->name('admin.partner.boxes');
+    Route::get('/admin/partner/articles', PartnerArticles::class)->name('admin.partner.articles');
 
     Route::get('/admin/invoice/{id?}', [InvoiceController::class,'download'])->name('admin.invoice');
 

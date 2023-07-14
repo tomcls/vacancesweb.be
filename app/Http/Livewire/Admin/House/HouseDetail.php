@@ -192,7 +192,6 @@ class HouseDetail extends Component
                 if (isset($position->location->displayPosition)) {
 
                     $this->regionSearch = $text;
-                    logger($position->location->address);
                     $this->house->longitude = $position->location->navigationPosition[0]['Longitude'];
                     $this->house->latitude = $position->location->navigationPosition[0]['Latitude'];
                     $this->house->street = $position->location->address->street??null;

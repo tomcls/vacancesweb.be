@@ -1,4 +1,4 @@
-<svg {{ $attributes->merge(['class' => 'inline-block w-7 h-7']) }} stroke-width="0"  fill="currentColor" stroke="currentColor" viewBox="0 0 6.0854168 6.4558334" xmlns="http://www.w3.org/2000/svg">
+<svg {{ $attributes->merge(['class' => 'inline-block ']) }} stroke-width="0"  fill="currentColor" stroke="currentColor" viewBox="0 0 6.0854168 6.4558334" xmlns="http://www.w3.org/2000/svg">
   <g
      transform="translate(-105.05848,-100.24827)">
     <g

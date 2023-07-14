@@ -94,7 +94,6 @@ class PackageUsers extends Component
                 if ($u) {
                     $this->assign->user_id  = $u->id;
                 }
-                logger($this->assign);
                 $this->assign->save();
                 $this->showAssignModal = false;
                 $this->notify(['message' => 'Package well assigned', 'type' => 'success']);
@@ -159,7 +158,6 @@ class PackageUsers extends Component
                     ->orWhere('lastname', 'like', '%' . $name . '%')
                     ->orWhere('email', 'like', '%' . $name . '%'))->limit(5);
             $this->users = $query->get();
-            logger($this->users);
         }
     }
     public function setAutoCompleteItem($type, $text, $id, $subtitle)

@@ -20,11 +20,12 @@
         <a href="{{route('houses')}}" class="text-sm font-semibold leading-6 {{$textColor}}">Locations</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Voyages</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Partenaires</a>
-        <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Articles</a>
+        <a href="{{route('reportages')}}" class="text-sm font-semibold leading-6 {{$textColor}}">Reportages</a>
+        <a href="{{route('articles')}}" class="text-sm font-semibold leading-6 {{$textColor}}">Articles</a>
         <a href="#" class="text-sm font-semibold leading-6 {{$textColor}}">Publier une location</a>
       </div>
       <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="{{(auth()->check()) ? route('profile') : route('auth.login')}}" class="text-sm font-semibold leading-6 text-left {{$textColor}}">{!!(auth()->check()) ? auth()->user()->firstname."<br><small>"."Mon profile</small>": 'Connexion'!!} <span class="text-pink-500"  aria-hidden="true">&rarr;</span></a>
+        <a href="{{(auth()->check()) ? route('me.profile') : route('auth.login')}}" class="text-sm font-semibold leading-6 text-left {{$textColor}}">{!!(auth()->check()) ? auth()->user()->firstname."<br><small>"."Mon profile</small>": 'Connexion'!!} <span class="text-pink-500"  aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
@@ -65,7 +66,8 @@
               <a href="{{route('houses')}}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Locations</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Voyages</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Partenaires</a>
-              <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Articles</a>
+              <a href="{{route('reportages')}}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Reportages</a>
+              <a href="{{route('articles')}}" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Articles</a>
               <a href="#" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-white hover:bg-gray-800">Publier une location</a>
             </div>
             <div class="py-6">

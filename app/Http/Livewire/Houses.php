@@ -129,7 +129,6 @@ class Houses extends Component
             ->whereNotNull('house_publications.startdate')
             ->whereNotNull('house_publications.enddate')
             ->groupBy('houses.id');
-           // logger($query->toSql());
         return $this->applySorting($query);
     }
 
